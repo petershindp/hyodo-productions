@@ -1,5 +1,17 @@
+/* Reset button styles so .pill buttons are visually identical to the old <a> tags */
+button.pill,
+button.footer-link {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	text-align: inherit;
+}
+
 .topnav {
-	padding: 24px 32px 72px;
 	text-align: center;
 	position: fixed;
 	top: 0;
@@ -169,12 +181,4 @@
 	}
 }
 
-/* Fade-in animation for topnav */
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
+/* fadeIn is defined in globals.css */

@@ -1,19 +1,15 @@
-export const handleHomeClick = () => {
-	// Navigate to home page if not on it
-	if (window.location.pathname !== "/") {
-		window.location.href = "/";
-	}
-	// Scroll to the top of the page smoothly
-	window.scrollTo({ top: 0, behavior: "smooth" });
+// Navigation helpers that work with React Router.
+// These are plain functions for use outside React components.
+// Components that need scroll-after-navigate should use the
+// useScrollToWork hook defined below.
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-export const handleWorkClick = () => {
-	const workSection = document.getElementById("work-section");
-	if (window.location.pathname !== "/") {
-		window.location.href = "/";
-	}
-
-	if (workSection) {
-		workSection.scrollIntoView({ behavior: "smooth" });
-	}
+export const scrollToWork = () => {
+  const workSection = document.getElementById('work-section');
+  if (workSection) {
+    workSection.scrollIntoView({ behavior: 'smooth' });
+  }
 };

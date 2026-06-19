@@ -1,7 +1,6 @@
 .project-details {
 	width: 100%;
 	min-height: 100vh;
-	/* background: #000; */
 	background: #f2efea;
 	color: #2f2e2c;
 	padding: 50px 80px 60px;
@@ -10,7 +9,6 @@
 
 .back-link {
 	display: inline-block;
-	/* color: #efefef; */
 	color: #2f2e2c;
 	text-decoration: none;
 	margin-bottom: 40px;
@@ -52,7 +50,6 @@
 }
 
 .project-info {
-	/* color: #efefef; */
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

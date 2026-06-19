@@ -1,0 +1,987 @@
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..b20db1e
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,3 @@
++VITE_SANITY_PROJECT_ID=your_project_id
++VITE_SANITY_DATASET=production
++VITE_SANITY_API_VERSION=2024-01-01
+diff --git a/.gitignore b/.gitignore
+index a547bf3..be5a69d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,8 @@
++# Environment variables
++.env
++.env.local
++.env.production
++
+ # Logs
+ logs
+ *.log
+diff --git a/README.md b/README.md
+index 18bc70e..254843c 100644
+--- a/README.md
++++ b/README.md
+@@ -1,16 +1,34 @@
+-# React + Vite
++# Hyodo Productions
+ 
+-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
++Website for Hyodo Productions — built with React, Vite, and Sanity CMS.
+ 
+-Currently, two official plugins are available:
++## Stack
+ 
+-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
++- **React 19** + **React Router 7**
++- **Vite 7**
++- **Sanity** (headless CMS for hero reel, work projects, and stills)
+ 
+-## React Compiler
++## Setup
+ 
+-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
++1. Clone the repo
++2. Copy `.env.example` to `.env` and fill in your Sanity credentials:
++   ```
++   VITE_SANITY_PROJECT_ID=your_project_id
++   VITE_SANITY_DATASET=production
++   VITE_SANITY_API_VERSION=2024-01-01
++   ```
++3. Install dependencies and run:
++   ```bash
++   npm install
++   npm run dev
++   ```
+ 
+-## Expanding the ESLint configuration
++## Sanity Studio
+ 
+-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
++The Sanity studio lives in the `/sanity` directory.
++
++```bash
++cd sanity
++npm install
++npx sanity dev
++```
+diff --git a/index.html b/index.html
+index 28c472e..32333d8 100644
+--- a/index.html
++++ b/index.html
+@@ -2,9 +2,13 @@
+ <html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
++    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <title>hyodo-site</title>
++    <title>Hyodo Productions</title>
++    <meta name="description" content="Hyodo Productions — cinematic storytelling. Connected by stories. Felt through the screen." />
++    <meta property="og:title" content="Hyodo Productions" />
++    <meta property="og:description" content="Cinematic storytelling. Connected by stories. Felt through the screen." />
++    <meta property="og:type" content="website" />
+   </head>
+   <body>
+     <div id="root"></div>
+diff --git a/sanity/schemas/work.js b/sanity/schemas/work.js
+index e5b0df1..6b28d6c 100644
+--- a/sanity/schemas/work.js
++++ b/sanity/schemas/work.js
+@@ -6,7 +6,7 @@ export default {
+     {name: 'projectId', title: 'Project ID', type: 'string'},
+     {
+       name: 'title',
+-      title: 'Hero Title',
++      title: 'Project Title',
+       type: 'string',
+     },
+     {
+diff --git a/src/App.css b/src/App.css
+deleted file mode 100644
+index b90b028..0000000
+--- a/src/App.css
++++ /dev/null
+@@ -1,43 +0,0 @@
+-#root {
+-	width: 100%;
+-	max-width: none;
+-	margin: 0;
+-	padding: 2rem;
+-	text-align: center;
+-}
+-
+-.logo {
+-	height: 6em;
+-	padding: 1.5em;
+-	will-change: filter;
+-	transition: filter 300ms;
+-}
+-.logo:hover {
+-	filter: drop-shadow(0 0 2em #646cffaa);
+-}
+-.logo.react:hover {
+-	filter: drop-shadow(0 0 2em #61dafbaa);
+-}
+-
+-@keyframes logo-spin {
+-	from {
+-		transform: rotate(0deg);
+-	}
+-	to {
+-		transform: rotate(360deg);
+-	}
+-}
+-
+-@media (prefers-reduced-motion: no-preference) {
+-	a:nth-of-type(2) .logo {
+-		animation: logo-spin infinite 20s linear;
+-	}
+-}
+-
+-.card {
+-	padding: 2em;
+-}
+-
+-.read-the-docs {
+-	color: #888;
+-}
+diff --git a/src/App.jsx b/src/App.jsx
+index 84ad33f..73c4007 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -1,31 +1,44 @@
+ import "./styles/globals.css";
+-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
++import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
++import { useEffect } from "react";
+ import TopNav from "./components/TopNav";
+ import Hero from "./components/Hero";
+ import Footer from "./components/Footer";
+ import WorkGrid from "./components/WorkGrid";
+ import HeroAbout from "./components/HeroAbout";
+ import ProjectDetails from "./pages/ProjectDetails";
++import { scrollToWork } from "./utils/navigation";
+ 
+ function HomePage() {
+-	return (
+-		<div className="site">
+-			<TopNav />
+-			<Hero />
+-			<HeroAbout />
+-			<WorkGrid />
+-			<Footer />
+-		</div>
+-	);
++  const location = useLocation();
++
++  // Handle scroll-to-work after navigating back from a project page
++  useEffect(() => {
++    if (location.state?.scrollToWork) {
++      // Wait for DOM to render before scrolling
++      const timer = setTimeout(() => scrollToWork(), 100);
++      return () => clearTimeout(timer);
++    }
++  }, [location.state]);
++
++  return (
++    <div className="site">
++      <TopNav />
++      <Hero />
++      <HeroAbout />
++      <WorkGrid />
++      <Footer />
++    </div>
++  );
+ }
+ 
+ export default function App() {
+-	return (
+-		<Router>
+-			<Routes>
+-				<Route path="/" element={<HomePage />} />
+-				<Route path="/work/:projectId" element={<ProjectDetails />} />
+-			</Routes>
+-		</Router>
+-	);
++  return (
++    <Router>
++      <Routes>
++        <Route path="/" element={<HomePage />} />
++        <Route path="/work/:projectId" element={<ProjectDetails />} />
++      </Routes>
++    </Router>
++  );
+ }
+diff --git a/src/client.js b/src/client.js
+index 44ec75a..e00f457 100644
+--- a/src/client.js
++++ b/src/client.js
+@@ -1,8 +1,8 @@
+ import {createClient} from '@sanity/client'
+ 
+ export const client = createClient({
+-  projectId: '161139bz',
+-  dataset: 'production',
+-  apiVersion: '2024-01-01',
++  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
++  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
++  apiVersion: import.meta.env.VITE_SANITY_API_VERSION || '2024-01-01',
+   useCdn: true,
+ })
+diff --git a/src/components/Footer.jsx b/src/components/Footer.jsx
+index b762b2d..5d284e9 100644
+--- a/src/components/Footer.jsx
++++ b/src/components/Footer.jsx
+@@ -1,53 +1,91 @@
+ import "../styles/footer.css";
+-import { handleHomeClick, handleWorkClick } from "../utils/navigation";
++import { useNavigate, useLocation } from "react-router-dom";
++import { scrollToTop, scrollToWork } from "../utils/navigation";
+ 
+ export default function Footer() {
+-	return (
+-		<footer className="footer">
+-			<div className="footer-inner">
+-				<h2 className="footer-title">
+-					<span>hyodo</span>
+-					<span>productions</span>
+-				</h2>
++  const navigate = useNavigate();
++  const location = useLocation();
+ 
+-				<div className="footer-right">
+-					<div className="links-column">
+-						<div className="footer-pill">LINKS</div>
+-						<div
+-							className="footer-link"
+-							id="home-link"
+-							onClick={handleHomeClick}
+-						>
+-							Home
+-						</div>
+-						<div
+-							className="footer-link"
+-							id="work-link"
+-							onClick={handleWorkClick}
+-						>
+-							Work
+-						</div>
+-						<div className="footer-link" id="about-link">
+-							About
+-						</div>
+-					</div>
++  const handleHomeClick = () => {
++    if (location.pathname !== "/") {
++      navigate("/");
++    } else {
++      scrollToTop();
++    }
++  };
+ 
+-					<div className="links-column">
+-						<div className="footer-pill">CONNECT</div>
+-						<div className="footer-link">Instagram</div>
+-						<div className="footer-link">LinkedIn</div>
+-						{/* <div className="footer-link">YouTube</div> */}
+-						<div className="footer-link">Email</div>
+-					</div>
+-				</div>
+-			</div>
++  const handleWorkClick = () => {
++    if (location.pathname !== "/") {
++      navigate("/", { state: { scrollToWork: true } });
++    } else {
++      scrollToWork();
++    }
++  };
+ 
+-			<div className="footer-bottom">
+-				<div>©2026 Hyodo Productions LLC</div>
+-				<div className="tagline">
+-					Connected by stories. Shown through the screen
+-				</div>
+-			</div>
+-		</footer>
+-	);
++  return (
++    <footer className="footer">
++      <div className="footer-inner">
++        <h2 className="footer-title">
++          <span>hyodo</span>
++          <span>productions</span>
++        </h2>
++
++        <div className="footer-right">
++          <div className="links-column">
++            <div className="footer-pill">LINKS</div>
++            <button
++              className="footer-link"
++              id="home-link"
++              onClick={handleHomeClick}
++            >
++              Home
++            </button>
++            <button
++              className="footer-link"
++              id="work-link"
++              onClick={handleWorkClick}
++            >
++              Work
++            </button>
++            <button className="footer-link" id="about-link">
++              About
++            </button>
++          </div>
++
++          <div className="links-column">
++            <div className="footer-pill">CONNECT</div>
++            <a
++              className="footer-link"
++              href="https://www.instagram.com/"
++              target="_blank"
++              rel="noopener noreferrer"
++            >
++              Instagram
++            </a>
++            <a
++              className="footer-link"
++              href="https://www.linkedin.com/"
++              target="_blank"
++              rel="noopener noreferrer"
++            >
++              LinkedIn
++            </a>
++            <a
++              className="footer-link"
++              href="mailto:contact@hyodoproductions.com"
++            >
++              Email
++            </a>
++          </div>
++        </div>
++      </div>
++
++      <div className="footer-bottom">
++        <div>©2026 Hyodo Productions LLC</div>
++        <div className="tagline">
++          Connected by stories. Shown through the screen
++        </div>
++      </div>
++    </footer>
++  );
+ }
+diff --git a/src/components/Hero.jsx b/src/components/Hero.jsx
+index f7470db..d45560b 100644
+--- a/src/components/Hero.jsx
++++ b/src/components/Hero.jsx
+@@ -3,47 +3,51 @@ import { useEffect, useState } from "react";
+ import { client } from "../client";
+ 
+ export default function Hero() {
+-	const [hero, setHero] = useState(null);
+-	const [showTitle, setShowTitle] = useState(false);
++  const [hero, setHero] = useState(null);
++  const [showTitle, setShowTitle] = useState(false);
++  const [error, setError] = useState(false);
+ 
+-	useEffect(() => {
+-		client
+-			.fetch(`*[_type == "hero"][0]{ title, reel { asset->{url} } }`)
+-			.then(setHero);
+-	}, []);
++  useEffect(() => {
++    client
++      .fetch(`*[_type == "hero"][0]{ title, reel { asset->{url} } }`)
++      .then(setHero)
++      .catch(() => setError(true));
++  }, []);
+ 
+-	useEffect(() => {
+-		const timer = setTimeout(() => setShowTitle(true), 500);
+-		return () => clearTimeout(timer);
+-	}, []);
++  useEffect(() => {
++    const timer = setTimeout(() => setShowTitle(true), 500);
++    return () => clearTimeout(timer);
++  }, []);
+ 
+-	return (
+-		<div className="hero-container">
+-			<section className="hero">
+-				{hero ? (
+-					<>
+-						<video
+-							className="hero-video"
+-							src={hero.reel.asset.url}
+-							autoPlay
+-							muted
+-							loop
+-							playsInline
+-						/>
+-						<h1
+-							className={`hero-title ${showTitle ? "hero-title-visible" : ""}`}
+-						>
+-							{hero.title.split(" ").map((word, i) => (
+-								<span key={i} className="hero-title-word">
+-									{word}
+-								</span>
+-							))}
+-						</h1>
+-					</>
+-				) : (
+-					<div className="hero-loading" />
+-				)}
+-			</section>
+-		</div>
+-	);
++  return (
++    <div className="hero-container">
++      <section className="hero">
++        {error ? (
++          <div className="hero-loading" />
++        ) : hero ? (
++          <>
++            <video
++              className="hero-video"
++              src={hero.reel.asset.url}
++              autoPlay
++              muted
++              loop
++              playsInline
++            />
++            <h1
++              className={`hero-title ${showTitle ? "hero-title-visible" : ""}`}
++            >
++              {hero.title.split(" ").map((word, i) => (
++                <span key={i} className="hero-title-word">
++                  {word}
++                </span>
++              ))}
++            </h1>
++          </>
++        ) : (
++          <div className="hero-loading" />
++        )}
++      </section>
++    </div>
++  );
+ }
+diff --git a/src/components/TopNav.jsx b/src/components/TopNav.jsx
+index 642b375..93f27e3 100644
+--- a/src/components/TopNav.jsx
++++ b/src/components/TopNav.jsx
+@@ -1,20 +1,40 @@
+ import "../styles/topnav.css";
+-import { handleHomeClick, handleWorkClick } from "../utils/navigation";
++import { useNavigate, useLocation } from "react-router-dom";
++import { scrollToTop, scrollToWork } from "../utils/navigation";
+ 
+ export default function TopNav() {
+-	return (
+-		<header className="topnav">
+-			<div className="logo">H</div>
+-			<nav className="nav-pills">
+-				<a className="pill home" onClick={handleHomeClick}>
+-					HOME
+-				</a>
+-				<a className="pill work" onClick={handleWorkClick}>
+-					WORK
+-				</a>
+-				<a className="pill about">ABOUT</a>
+-			</nav>
+-			<p className="tagline">Connected by stories. Felt through the screen</p>
+-		</header>
+-	);
++  const navigate = useNavigate();
++  const location = useLocation();
++
++  const handleHomeClick = () => {
++    if (location.pathname !== "/") {
++      navigate("/");
++    } else {
++      scrollToTop();
++    }
++  };
++
++  const handleWorkClick = () => {
++    if (location.pathname !== "/") {
++      navigate("/", { state: { scrollToWork: true } });
++    } else {
++      scrollToWork();
++    }
++  };
++
++  return (
++    <header className="topnav">
++      <div className="logo">H</div>
++      <nav className="nav-pills">
++        <button className="pill home" onClick={handleHomeClick}>
++          HOME
++        </button>
++        <button className="pill work" onClick={handleWorkClick}>
++          WORK
++        </button>
++        <button className="pill about">ABOUT</button>
++      </nav>
++      <p className="tagline">Connected by stories. Felt through the screen</p>
++    </header>
++  );
+ }
+diff --git a/src/components/WorkCard.jsx b/src/components/WorkCard.jsx
+index 972394b..e5e45b2 100644
+--- a/src/components/WorkCard.jsx
++++ b/src/components/WorkCard.jsx
+@@ -6,56 +6,62 @@ import { Link } from "react-router-dom";
+ const builder = imageUrlBuilder(client);
+ 
+ export default function WorkCard({ projectId, title, meta, still, videoUrl }) {
+-	const videoRef = useRef(null);
+-	const [isHovered, setIsHovered] = useState(false);
++  const videoRef = useRef(null);
++  const [isHovered, setIsHovered] = useState(false);
++  const [videoLoaded, setVideoLoaded] = useState(false);
+ 
+-	const handleMouseEnter = () => {
+-		setIsHovered(true);
+-		if (videoRef.current) {
+-			videoRef.current.currentTime = 0;
+-			videoRef.current.play();
+-		}
+-	};
++  const handleMouseEnter = () => {
++    setIsHovered(true);
++    // Lazy-set the src on first hover so video doesn't load until needed
++    if (videoRef.current && !videoLoaded) {
++      videoRef.current.src = videoUrl;
++      setVideoLoaded(true);
++    }
++    if (videoRef.current) {
++      videoRef.current.currentTime = 0;
++      videoRef.current.play();
++    }
++  };
+ 
+-	const handleMouseLeave = () => {
+-		setIsHovered(false);
+-		if (videoRef.current) {
+-			videoRef.current.pause();
+-			videoRef.current.currentTime = 0;
+-		}
+-	};
++  const handleMouseLeave = () => {
++    setIsHovered(false);
++    if (videoRef.current) {
++      videoRef.current.pause();
++      videoRef.current.currentTime = 0;
++    }
++  };
+ 
+-	// Resize still image to 1600x900 (2x visible size for quality) with JPEG optimization
+-	const stillUrl = still
+-		? builder.image(still).width(1600).height(900).auto("format").url()
+-		: null;
++  // Use fit('crop') so non-16:9 images aren't distorted
++  const stillUrl = still
++    ? builder.image(still).width(1600).height(900).fit("crop").auto("format").url()
++    : null;
+ 
+-	return (
+-		<Link to={`/work/${projectId}`} className="card-link">
+-			<div
+-				className="card"
+-				onMouseEnter={handleMouseEnter}
+-				onMouseLeave={handleMouseLeave}
+-			>
+-				{still && !isHovered ? (
+-					<img className="card-image" src={stillUrl} alt={title} />
+-				) : null}
+-				{videoUrl ? (
+-					<video
+-						ref={videoRef}
+-						className="card-video"
+-						src={videoUrl}
+-						muted
+-						playsInline
+-					/>
+-				) : (
+-					<div className="card-placeholder">Loading...</div>
+-				)}
+-				<div className="overlay">
+-					<h3>{title}</h3>
+-					<p>{meta}</p>
+-				</div>
+-			</div>
+-		</Link>
+-	);
++  return (
++    <Link to={`/work/${projectId}`} className="card-link">
++      <div
++        className="card"
++        onMouseEnter={handleMouseEnter}
++        onMouseLeave={handleMouseLeave}
++      >
++        {still && !isHovered ? (
++          <img className="card-image" src={stillUrl} alt={title} />
++        ) : null}
++        {videoUrl ? (
++          // No src here — set lazily on first hover
++          <video
++            ref={videoRef}
++            className="card-video"
++            muted
++            playsInline
++          />
++        ) : (
++          <div className="card-placeholder" />
++        )}
++        <div className="overlay">
++          <h3>{title}</h3>
++          <p>{meta}</p>
++        </div>
++      </div>
++    </Link>
++  );
+ }
+diff --git a/src/components/WorkGrid.jsx b/src/components/WorkGrid.jsx
+index a4db086..ce92f9f 100644
+--- a/src/components/WorkGrid.jsx
++++ b/src/components/WorkGrid.jsx
+@@ -4,34 +4,52 @@ import { useState, useEffect } from "react";
+ import { client } from "../client";
+ 
+ export default function WorkGrid() {
+-	const [work, setWork] = useState([]);
++  const [work, setWork] = useState([]);
++  const [loading, setLoading] = useState(true);
++  const [error, setError] = useState(false);
+ 
+-	useEffect(() => {
+-		client
+-			.fetch(
+-				`*[_type == "work"]{ _id, projectId, title, category, thumbnail, video { asset->{url} } }`,
+-			)
+-			.then(setWork);
+-	}, []);
++  useEffect(() => {
++    client
++      .fetch(
++        `*[_type == "work"]{ _id, projectId, title, category, thumbnail, video { asset->{url} } }`,
++      )
++      .then((data) => {
++        setWork(data);
++        setLoading(false);
++      })
++      .catch(() => {
++        setError(true);
++        setLoading(false);
++      });
++  }, []);
+ 
+-	return (
+-		<section id="work-section" className="work-section">
+-			<div className="grid">
+-				{work &&
+-					work.map((item) => (
+-						<WorkCard
+-							key={item._id}
+-							projectId={item?.projectId || "unknown"}
+-							title={item?.title || "Loading..."}
+-							meta={`${item?.category || "Unknown"}`}
+-							still={item.thumbnail || null}
+-							videoUrl={item?.video?.asset?.url}
+-						/>
+-					))}
+-			</div>
+-			<div className="view-all">
+-				<div className="view-all-text">VIEW ALL</div>
+-			</div>
+-		</section>
+-	);
++  return (
++    <section id="work-section" className="work-section">
++      {loading ? (
++        <div className="grid">
++          {[...Array(4)].map((_, i) => (
++            <div key={i} className="card card-skeleton" />
++          ))}
++        </div>
++      ) : error ? (
++        <div className="grid-error">Unable to load projects.</div>
++      ) : (
++        <div className="grid">
++          {work.map((item) => (
++            <WorkCard
++              key={item._id}
++              projectId={item?.projectId || "unknown"}
++              title={item?.title || "Untitled"}
++              meta={`${item?.category || ""}`}
++              still={item.thumbnail || null}
++              videoUrl={item?.video?.asset?.url}
++            />
++          ))}
++        </div>
++      )}
++      <div className="view-all">
++        <div className="view-all-text">VIEW ALL</div>
++      </div>
++    </section>
++  );
+ }
+diff --git a/src/index.css b/src/index.css
+index 67a31a6..c599c7e 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -1,67 +1,14 @@
+-:root {
+-	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+-	line-height: 1.5;
+-	font-weight: 400;
+-
+-	color-scheme: light dark;
+-	color: rgba(255, 255, 255, 0.87);
+-	background-color: #242424;
+-
+-	font-synthesis: none;
+-	text-rendering: optimizeLegibility;
+-	-webkit-font-smoothing: antialiased;
+-	-moz-osx-font-smoothing: grayscale;
+-}
+-
+-a {
+-	font-weight: 500;
+-	color: #646cff;
+-	text-decoration: inherit;
+-}
+-a:hover {
+-	color: #535bf2;
++/* Base resets — global design tokens live in styles/globals.css */
++*, *::before, *::after {
++  box-sizing: border-box;
+ }
+ 
+ body {
+-	margin: 0;
+-	min-width: 320px;
+-	min-height: 100vh;
+-	width: 100%;
+-}
+-
+-h1 {
+-	font-size: 3.2em;
+-	line-height: 1.1;
+-}
+-
+-button {
+-	border-radius: 8px;
+-	border: 1px solid transparent;
+-	padding: 0.6em 1.2em;
+-	font-size: 1em;
+-	font-weight: 500;
+-	font-family: inherit;
+-	background-color: #1a1a1a;
+-	cursor: pointer;
+-	transition: border-color 0.25s;
+-}
+-button:hover {
+-	border-color: #646cff;
+-}
+-button:focus,
+-button:focus-visible {
+-	outline: 4px auto -webkit-focus-ring-color;
+-}
+-
+-@media (prefers-color-scheme: light) {
+-	:root {
+-		color: #213547;
+-		background-color: #ffffff;
+-	}
+-	a:hover {
+-		color: #747bff;
+-	}
+-	button {
+-		background-color: #f9f9f9;
+-	}
++  margin: 0;
++  min-width: 320px;
++  min-height: 100vh;
++  width: 100%;
++  -webkit-font-smoothing: antialiased;
++  -moz-osx-font-smoothing: grayscale;
++  text-rendering: optimizeLegibility;
+ }
+diff --git a/src/pages/ProjectDetails.jsx b/src/pages/ProjectDetails.jsx
+index dc09029..5d8501a 100644
+--- a/src/pages/ProjectDetails.jsx
++++ b/src/pages/ProjectDetails.jsx
+@@ -50,7 +50,7 @@ export default function ProjectDetails() {
+ 
+ 	const stillUrls = project.stills
+ 		? project.stills.map((still) =>
+-				builder.image(still).width(1600).height(900).auto("format").url(),
++				builder.image(still).width(1600).height(900).fit("crop").auto("format").url(),
+ 			)
+ 		: [];
+ 
+diff --git a/src/styles/footer.css b/src/styles/footer.css
+index c544ce3..4af4956 100644
+--- a/src/styles/footer.css
++++ b/src/styles/footer.css
+@@ -1,3 +1,17 @@
++/* Reset button styles so footer-link buttons match the old <div> appearance */
++button.footer-link {
++	background: none;
++	border: none;
++	padding: 0;
++	margin: 0;
++	font: inherit;
++	color: inherit;
++	cursor: pointer;
++	text-align: inherit;
++	text-decoration: underline;
++	text-underline-offset: 6px;
++}
++
+ .footer {
+ 	position: relative;
+ 	color: #f7f7f7;
+diff --git a/src/styles/grid.css b/src/styles/grid.css
+index ceb3aee..d930c98 100644
+--- a/src/styles/grid.css
++++ b/src/styles/grid.css
+@@ -58,6 +58,22 @@
+ 	justify-content: center;
+ 	color: #999;
+ }
++/* Loading skeleton */
++.card-skeleton {
++	background: #1e1e1e;
++	animation: skeleton-pulse 1.4s ease-in-out infinite;
++}
++@keyframes skeleton-pulse {
++	0%, 100% { opacity: 0.4; }
++	50% { opacity: 0.7; }
++}
++/* Fetch error */
++.grid-error {
++	color: rgba(242, 239, 234, 0.5);
++	font-size: 14px;
++	padding: 48px 32px;
++	text-align: center;
++}
+ .overlay {
+ 	position: absolute;
+ 	inset: 0;
+@@ -100,7 +116,6 @@
+ }
+ 
+ /* Desktop/tablet: make a 2x2 grid and larger cards that fill the viewport width */
+-@media (min-width: 900px) {
+ 	.grid {
+ 		grid-template-columns: repeat(2, 1fr);
+ 		gap: 28px;
+diff --git a/src/styles/projectDetails.css b/src/styles/projectDetails.css
+index bfe8135..33d6436 100644
+--- a/src/styles/projectDetails.css
++++ b/src/styles/projectDetails.css
+@@ -1,7 +1,6 @@
+ .project-details {
+ 	width: 100%;
+ 	min-height: 100vh;
+-	/* background: #000; */
+ 	background: #f2efea;
+ 	color: #2f2e2c;
+ 	padding: 50px 80px 60px;
+@@ -10,7 +9,6 @@
+ 
+ .back-link {
+ 	display: inline-block;
+-	/* color: #efefef; */
+ 	color: #2f2e2c;
+ 	text-decoration: none;
+ 	margin-bottom: 40px;
+@@ -52,7 +50,6 @@
+ }
+ 
+ .project-info {
+-	/* color: #efefef; */
+ 	display: flex;
+ 	flex-direction: row;
+ 	justify-content: space-between;
+diff --git a/src/styles/topnav.css b/src/styles/topnav.css
+index 1b58f0c..3002050 100644
+--- a/src/styles/topnav.css
++++ b/src/styles/topnav.css
+@@ -1,5 +1,17 @@
++/* Reset button styles so .pill buttons are visually identical to the old <a> tags */
++button.pill,
++button.footer-link {
++	background: none;
++	border: none;
++	padding: 0;
++	margin: 0;
++	font: inherit;
++	color: inherit;
++	cursor: pointer;
++	text-align: inherit;
++}
++
+ .topnav {
+-	padding: 24px 32px 72px;
+ 	text-align: center;
+ 	position: fixed;
+ 	top: 0;
+@@ -169,12 +181,4 @@
+ 	}
+ }
+ 
+-/* Fade-in animation for topnav */
+-@keyframes fadeIn {
+-	from {
+-		opacity: 0;
+-	}
+-	to {
+-		opacity: 1;
+-	}
+-}
++/* fadeIn is defined in globals.css */
+diff --git a/src/utils/navigation.js b/src/utils/navigation.js
+index 70168ca..6334d09 100644
+--- a/src/utils/navigation.js
++++ b/src/utils/navigation.js
+@@ -1,19 +1,15 @@
+-export const handleHomeClick = () => {
+-	// Navigate to home page if not on it
+-	if (window.location.pathname !== "/") {
+-		window.location.href = "/";
+-	}
+-	// Scroll to the top of the page smoothly
+-	window.scrollTo({ top: 0, behavior: "smooth" });
+-};
++// Navigation helpers that work with React Router.
++// These are plain functions for use outside React components.
++// Components that need scroll-after-navigate should use the
++// useScrollToWork hook defined below.
+ 
+-export const handleWorkClick = () => {
+-	const workSection = document.getElementById("work-section");
+-	if (window.location.pathname !== "/") {
+-		window.location.href = "/";
+-	}
++export const scrollToTop = () => {
++  window.scrollTo({ top: 0, behavior: 'smooth' });
++};
+ 
+-	if (workSection) {
+-		workSection.scrollIntoView({ behavior: "smooth" });
+-	}
++export const scrollToWork = () => {
++  const workSection = document.getElementById('work-section');
++  if (workSection) {
++    workSection.scrollIntoView({ behavior: 'smooth' });
++  }
+ };

@@ -50,7 +50,7 @@ export default function ProjectDetails() {
 
 	const stillUrls = project.stills
 		? project.stills.map((still) =>
-				builder.image(still).width(1600).height(900).auto("format").url(),
+				builder.image(still).width(1600).height(900).fit("crop").auto("format").url(),
 			)
 		: [];
 

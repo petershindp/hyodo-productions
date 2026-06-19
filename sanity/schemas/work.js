@@ -6,7 +6,7 @@ export default {
     {name: 'projectId', title: 'Project ID', type: 'string'},
     {
       name: 'title',
-      title: 'Hero Title',
+      title: 'Project Title',
       type: 'string',
     },
     {
