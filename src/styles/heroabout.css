@@ -1,0 +1,18 @@
+.hero-about-container {
+	background-color: #aeb7a1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 80vh;
+	text-align: center;
+}
+
+.hero-about-text {
+	font-size: clamp(80px, 10vw, 150px);
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	color: black;
+	line-height: 1.2;
+	max-width: 90vw;
+	padding: 0 20px;
+}

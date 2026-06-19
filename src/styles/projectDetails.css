@@ -1,0 +1,156 @@
+.project-details {
+	width: 100%;
+	min-height: 100vh;
+	/* background: #000; */
+	background: #f2efea;
+	color: #2f2e2c;
+	padding: 50px 80px 60px;
+	box-sizing: border-box;
+}
+
+.back-link {
+	display: inline-block;
+	/* color: #efefef; */
+	color: #2f2e2c;
+	text-decoration: none;
+	margin-bottom: 40px;
+	font-size: 16px;
+	opacity: 0.8;
+	transition: opacity 200ms ease;
+}
+
+.back-link:hover {
+	color: #98b273;
+	opacity: 1;
+}
+
+.project-video {
+	border-radius: 14px;
+}
+
+.project-image {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.project-stills {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 7px;
+	margin-top: 80px;
+	width: 100%;
+}
+
+.project-still {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: 8px;
+	display: block;
+}
+
+.project-info {
+	/* color: #efefef; */
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100%;
+	margin-bottom: 30px;
+}
+
+.project-title {
+	font-size: 48px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: -0.01em;
+}
+
+.project-client {
+	font-size: 18px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.title-client {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 30px;
+}
+
+.project-category {
+	font-size: 18px;
+	opacity: 0.7;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.project-loading,
+.project-not-found {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #000;
+	color: #f7f7f7;
+	font-size: 20px;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.project-not-found a {
+	color: #efefef;
+	text-decoration: underline;
+	font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+	.project-title {
+		font-size: 36px;
+	}
+
+	.project-category {
+		font-size: 16px;
+	}
+
+	.title-client {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0px;
+	}
+
+	.project-stills {
+		grid-template-columns: repeat(2, 1fr);
+		margin-top: 60px;
+		gap: 6px;
+	}
+}
+
+@media (max-width: 700px) {
+	.project-category {
+		font-size: 14px;
+	}
+}
+
+@media (max-width: 650px) {
+	.project-title {
+		font-size: 28px;
+	}
+
+	.project-category {
+		font-size: 14px;
+	}
+	.project-info {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.project-stills {
+		grid-template-columns: 1fr;
+		margin-top: 60px;
+	}
+}

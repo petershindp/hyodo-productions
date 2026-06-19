@@ -1,0 +1,46 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	background: #0e0e0e;
+	color: #f2efea;
+	font-family: Inter, system-ui, sans-serif;
+	/* width: 100vw; */
+}
+
+/* Ensure root-level elements aren't capped */
+html,
+body,
+#root,
+.site {
+	width: 100%;
+	max-width: none;
+}
+
+/* .site {
+	display: flex;
+	flex-direction: column;
+	min-width: 100%;
+} */
+
+/* Global fade-in animations for staggered component reveal */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
