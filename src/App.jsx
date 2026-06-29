@@ -1,32 +1,44 @@
 import "./styles/globals.css";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TopNav from "./components/TopNav";
 import Hero from "./components/Hero";
-import Footer from "./components/Footer";
-import WorkGrid from "./components/WorkGrid";
 import HeroAbout from "./components/HeroAbout";
+import WorkGrid from "./components/WorkGrid";
+import Clients from "./components/Clients";
+import Marquee from "./components/Marquee";
+import Footer from "./components/Footer";
 import ProjectDetails from "./pages/ProjectDetails";
-import { scrollToWork } from "./utils/navigation";
+import WorkPage from "./pages/WorkPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+
+function GrainOverlay() {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: "none",
+        opacity: 0.05,
+        mixBlendMode: "multiply",
+        backgroundImage:
+          "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>')",
+        animation: "hp-grain 1.2s steps(2) infinite",
+      }}
+    />
+  );
+}
 
 function HomePage() {
-  const location = useLocation();
-
-  // Handle scroll-to-work after navigating back from a project page
-  useEffect(() => {
-    if (location.state?.scrollToWork) {
-      // Wait for DOM to render before scrolling
-      const timer = setTimeout(() => scrollToWork(), 100);
-      return () => clearTimeout(timer);
-    }
-  }, [location.state]);
-
   return (
-    <div className="site">
+    <div>
       <TopNav />
       <Hero />
       <HeroAbout />
-      <WorkGrid />
+      <WorkGrid limit={6} />
+      <Clients />
+      <Marquee />
       <Footer />
     </div>
   );
@@ -35,9 +47,13 @@ function HomePage() {
 export default function App() {
   return (
     <Router>
+      <GrainOverlay />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/work" element={<WorkPage />} />
         <Route path="/work/:projectId" element={<ProjectDetails />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
   );

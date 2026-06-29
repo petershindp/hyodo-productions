@@ -1,40 +1,20 @@
 import "../styles/topnav.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { scrollToTop, scrollToWork } from "../utils/navigation";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function TopNav() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleHomeClick = () => {
-    if (location.pathname !== "/") {
-      navigate("/");
-    } else {
-      scrollToTop();
-    }
-  };
-
-  const handleWorkClick = () => {
-    if (location.pathname !== "/") {
-      navigate("/", { state: { scrollToWork: true } });
-    } else {
-      scrollToWork();
-    }
-  };
 
   return (
     <header className="topnav">
-      <div className="logo">H</div>
-      <nav className="nav-pills">
-        <button className="pill home" onClick={handleHomeClick}>
-          HOME
-        </button>
-        <button className="pill work" onClick={handleWorkClick}>
-          WORK
-        </button>
-        <button className="pill about">ABOUT</button>
+      <button className="topnav-logo" onClick={() => navigate("/")}>
+        <span className="topnav-logo-main">HYODO</span>
+        <span className="topnav-logo-sub">PRODUCTIONS</span>
+      </button>
+      <nav className="topnav-links">
+        <Link to="/work" className="topnav-link">Work</Link>
+        <Link to="/about" className="topnav-link">About</Link>
+        <Link to="/contact" className="topnav-link">Contact</Link>
       </nav>
-      <p className="tagline">Connected by stories. Felt through the screen</p>
     </header>
   );
 }

@@ -1,20 +1,22 @@
 export default {
   name: 'hero',
-  title: 'Hero',
+  title: 'Site Settings',
   type: 'document',
   fields: [
     {
       name: 'title',
-      title: 'Hero Title',
+      title: 'Studio Name',
       type: 'string',
+      description: 'Displayed as the persistent title overlaid on the hero carousel.',
+      initialValue: 'Hyodo Productions',
+      validation: (Rule) => Rule.required(),
     },
     {
-      name: 'reel',
-      title: 'Hero Reel',
-      type: 'file',
-      options: {
-        accept: 'video/*',
-      },
+      name: 'btsPhotos',
+      title: 'BTS Photos',
+      type: 'array',
+      of: [{type: 'image', options: {hotspot: true}}],
+      description: 'Behind-the-scenes photos shown in the carousel on the homepage About section.',
     },
   ],
 }

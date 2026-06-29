@@ -2,8 +2,9 @@ import WorkCard from "./WorkCard";
 import "../styles/grid.css";
 import { useState, useEffect } from "react";
 import { client } from "../client";
+import { Link } from "react-router-dom";
 
-export default function WorkGrid() {
+export default function WorkGrid({ limit }) {
   const [work, setWork] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -11,7 +12,7 @@ export default function WorkGrid() {
   useEffect(() => {
     client
       .fetch(
-        `*[_type == "work"]{ _id, projectId, title, category, thumbnail, video { asset->{url} } }`,
+        `*[_type == "work"] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`
       )
       .then((data) => {
         setWork(data);
@@ -23,33 +24,44 @@ export default function WorkGrid() {
       });
   }, []);
 
+  const displayed = limit ? work.slice(0, limit) : work;
+
   return (
     <section id="work-section" className="work-section">
+      <div className="work-section-header">
+        <h2 className="work-section-title">Selected Work</h2>
+        <span className="work-section-meta">2022 — 2025</span>
+      </div>
       {loading ? (
         <div className="grid">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="card card-skeleton" />
+          {[...Array(limit || 6)].map((_, i) => (
+            <div key={i} className="card-skeleton" />
           ))}
         </div>
       ) : error ? (
         <div className="grid-error">Unable to load projects.</div>
       ) : (
         <div className="grid">
-          {work.map((item) => (
+          {displayed.map((item) => (
             <WorkCard
               key={item._id}
               projectId={item?.projectId || "unknown"}
               title={item?.title || "Untitled"}
-              meta={`${item?.category || ""}`}
+              category={item?.category || ""}
+              client={item?.client || ""}
               still={item.thumbnail || null}
               videoUrl={item?.video?.asset?.url}
             />
           ))}
         </div>
       )}
-      <div className="view-all">
-        <div className="view-all-text">VIEW ALL</div>
-      </div>
+      {limit && !loading && !error && (
+        <div className="work-view-all">
+          <Link to="/work" className="work-view-all-link">
+            View all work ↗
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

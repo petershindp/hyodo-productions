@@ -1,53 +1,169 @@
 import "../styles/hero.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { client } from "../client";
+import imageUrlBuilder from "@sanity/image-url";
+import { Link } from "react-router-dom";
+
+const builder = imageUrlBuilder(client);
+// Interval for auto-advancing slides (in milliseconds)
+// Note: This should match the animation duration in CSS for the progress bar in hero.css
+const INTERVAL = 10000;
 
 export default function Hero() {
-  const [hero, setHero] = useState(null);
-  const [showTitle, setShowTitle] = useState(false);
-  const [error, setError] = useState(false);
+	const [works, setWorks] = useState([]);
+	const [heroTitle, setHeroTitle] = useState("Hyodo Productions");
+	const [current, setCurrent] = useState(0);
+	const videoRefs = useRef({});
 
-  useEffect(() => {
-    client
-      .fetch(`*[_type == "hero"][0]{ title, reel { asset->{url} } }`)
-      .then(setHero)
-      .catch(() => setError(true));
-  }, []);
+	useEffect(() => {
+		Promise.all([
+			client.fetch(
+				`*[_type == "work"] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
+			),
+			client.fetch(`*[_type == "hero"][0]{ title }`),
+		])
+			.then(([workData, heroData]) => {
+				setWorks(workData);
+				if (heroData?.title) setHeroTitle(heroData.title);
+			})
+			.catch(() => {});
+	}, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowTitle(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
+	// Play active video, pause all others
+	useEffect(() => {
+		Object.entries(videoRefs.current).forEach(([idx, video]) => {
+			if (!video) return;
+			if (Number(idx) === current) {
+				video.currentTime = 0;
+				video.play().catch(() => {});
+			} else {
+				video.pause();
+			}
+		});
+	}, [current, works.length]);
 
-  return (
-    <div className="hero-container">
-      <section className="hero">
-        {error ? (
-          <div className="hero-loading" />
-        ) : hero ? (
-          <>
-            <video
-              className="hero-video"
-              src={hero.reel.asset.url}
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-            <h1
-              className={`hero-title ${showTitle ? "hero-title-visible" : ""}`}
-            >
-              {hero.title.split(" ").map((word, i) => (
-                <span key={i} className="hero-title-word">
-                  {word}
-                </span>
-              ))}
-            </h1>
-          </>
-        ) : (
-          <div className="hero-loading" />
-        )}
-      </section>
-    </div>
-  );
+	// Auto-advance
+	useEffect(() => {
+		if (works.length < 2) return;
+		const id = setInterval(
+			() => setCurrent((c) => (c + 1) % works.length),
+			INTERVAL,
+		);
+		return () => clearInterval(id);
+	}, [works.length]);
+
+	const go = (index) => setCurrent((index + works.length) % works.length);
+
+	const slide = works[current];
+
+	return (
+		<section className="hero">
+			{/* Video/image slides */}
+			{works.map((w, i) => {
+				const thumbUrl = w.thumbnail
+					? builder
+							.image(w.thumbnail)
+							.width(2400)
+							.height(1350)
+							.fit("crop")
+							.auto("format")
+							.url()
+					: null;
+				return (
+					<div
+						key={w._id}
+						className={`hero-slide${i === current ? " hero-slide-active" : ""}`}
+					>
+						{w.video?.asset?.url ? (
+							<video
+								ref={(el) => {
+									videoRefs.current[i] = el;
+								}}
+								src={w.video.asset.url}
+								className="hero-slide-video"
+								muted
+								playsInline
+								loop
+							/>
+						) : thumbUrl ? (
+							<div
+								className="hero-slide-bg"
+								style={{ backgroundImage: `url(${thumbUrl})` }}
+							/>
+						) : null}
+					</div>
+				);
+			})}
+
+			<div className="hero-gradient" />
+
+			{/* Persistent studio title */}
+			<div className="hero-studio">
+				<span className="hero-studio-title">{heroTitle}</span>
+			</div>
+
+			{/* Per-slide content */}
+			<div className="hero-content">
+				<div className="hero-left" key={current}>
+					{slide && (
+						<>
+							<div className="hero-badge">
+								<span className="hero-badge-pill">
+									{slide.category || "Work"}
+								</span>
+								{slide.client && (
+									<span className="hero-badge-label">{slide.client}</span>
+								)}
+							</div>
+							<p className="hero-slide-title">{slide.title}</p>
+							<Link to={`/work/${slide.projectId}`} className="hero-cta">
+								View Project ↗
+							</Link>
+						</>
+					)}
+				</div>
+
+				<div className="hero-right">
+					<div className="hero-counter">
+						<span className="hero-counter-current">
+							{String(current + 1).padStart(2, "0")}
+						</span>
+						<span>&nbsp;/&nbsp;</span>
+						<span>{String(works.length).padStart(2, "0")}</span>
+					</div>
+					<div className="hero-nav">
+						<button
+							className="hero-nav-btn"
+							onClick={() => go(current - 1)}
+							aria-label="Previous"
+						>
+							‹
+						</button>
+						<button
+							className="hero-nav-btn"
+							onClick={() => go(current + 1)}
+							aria-label="Next"
+						>
+							›
+						</button>
+					</div>
+					<div className="hero-dots">
+						{works.map((_, i) => (
+							<button
+								key={i}
+								className={`hero-dot${i === current ? " hero-dot-active" : ""}`}
+								onClick={() => go(i)}
+								aria-label={`Go to slide ${i + 1}`}
+							/>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Progress bar */}
+			<div className="hero-progress">
+				<div key={current} className="hero-progress-fill hero-progress-fill-running" />
+			</div>
+		</section>
+	);
 }

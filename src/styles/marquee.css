@@ -1,0 +1,22 @@
+.marquee-wrapper {
+  overflow: hidden;
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+  white-space: nowrap;
+  background: var(--bg);
+}
+
+.marquee-track {
+  display: inline-flex;
+  gap: 40px;
+  animation: hp-marquee 26s linear infinite;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(40px, 8vw, 120px);
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+.marquee-accent {
+  color: var(--accent);
+}
