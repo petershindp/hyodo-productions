@@ -129,6 +129,19 @@ a.contact-info-value:hover {
   background: var(--accent);
 }
 
+.contact-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.contact-form-error {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+
 .contact-form-success {
   font-family: var(--font-heading);
   font-size: 22px;

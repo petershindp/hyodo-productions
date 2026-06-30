@@ -46,12 +46,24 @@
 	justify-content: center;
 	padding-top: 88px;
 	pointer-events: none;
+	animation: hero-studio-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+}
+
+@keyframes hero-studio-in {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .hero-studio-title {
 	font-family: var(--font-heading);
 	font-weight: 700;
-	font-size: clamp(32px, 5vw, 72px);
+	font-size: clamp(20.5px, 3.2vw, 46.1px);
 	letter-spacing: -0.03em;
 	color: #f2f0eb;
 	text-align: center;

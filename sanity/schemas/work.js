@@ -16,10 +16,12 @@ export default {
       type: 'string',
       description: 'Used in the URL: /work/[slug]. No spaces or special characters.',
       validation: (Rule) =>
-        Rule.required().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-          name: 'slug',
-          invert: false,
-        }).error('Use lowercase letters, numbers and hyphens only (e.g. "neon-province")'),
+        Rule.required()
+          .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+            name: 'slug',
+            invert: false,
+          })
+          .error('Use lowercase letters, numbers and hyphens only (e.g. "neon-province")'),
     },
     {
       name: 'client',
@@ -41,6 +43,14 @@ export default {
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'featured',
+      title: 'Featured (Selected Work)',
+      type: 'boolean',
+      description:
+        'Show in the hero carousel and the homepage Selected Work grid. Limit to 4–6 projects.',
+      initialValue: false,
     },
     {
       name: 'publishedAt',
@@ -65,20 +75,23 @@ export default {
       title: 'Thumbnail Image',
       type: 'image',
       options: {hotspot: true},
-      description: 'Shown in the work grid. Also used as a fallback in the hero when no preview video is uploaded.',
+      description:
+        'Shown in the work grid. Also used as a fallback in the hero when no preview video is uploaded.',
     },
     {
       name: 'video',
       title: 'Preview Video',
       type: 'file',
       options: {accept: 'video/*'},
-      description: 'Plays in the hero carousel and on card hover. Keep under 20 MB for fast loading.',
+      description:
+        'Plays in the hero carousel and on card hover. Keep under 20 MB for fast loading.',
     },
     {
       name: 'videoLink',
       title: 'Embed Video URL',
       type: 'url',
-      description: 'Vimeo or YouTube embed URL (e.g. https://player.vimeo.com/video/…). Shown on the project detail page.',
+      description:
+        'Vimeo or YouTube embed URL (e.g. https://player.vimeo.com/video/…). Shown on the project detail page.',
     },
     {
       name: 'aspectRatio',
@@ -88,6 +101,7 @@ export default {
         list: [
           {title: '16:9 — Widescreen', value: '16/9'},
           {title: '4:3 — Standard', value: '4/3'},
+          {title: '3:2 - Open Gate', value: '3/2'},
           {title: '2.39:1 — Cinemascope', value: '2.39/1'},
           {title: '1.85:1 — Academy flat', value: '1.85/1'},
           {title: '9:16 — Vertical', value: '9/16'},
@@ -125,10 +139,13 @@ export default {
       title: 'title',
       client: 'client',
       category: 'category',
+      featured: 'featured',
       media: 'thumbnail',
     },
-    prepare({title, client, category, media}) {
-      const subtitle = [category, client].filter(Boolean).join(' — ')
+    prepare({title, client, category, featured, media}) {
+      const subtitle = [featured ? '★ Selected' : null, category, client]
+        .filter(Boolean)
+        .join(' — ')
       return {title, subtitle, media}
     },
   },

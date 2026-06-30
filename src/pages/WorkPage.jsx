@@ -27,6 +27,9 @@ export default function WorkPage() {
 
   const filtered = filter === "All" ? work : work.filter((p) => p.category === filter);
 
+  const activeCategories = new Set(work.map((p) => p.category));
+  const visibleFilters = FILTERS.filter((f) => f === "All" || activeCategories.has(f));
+
   return (
     <div>
       <TopNav />
@@ -38,7 +41,7 @@ export default function WorkPage() {
           </p>
         </div>
         <div className="work-filters">
-          {FILTERS.map((f) => (
+          {visibleFilters.map((f) => (
             <button
               key={f}
               className={`work-filter-btn${filter === f ? " active" : ""}`}

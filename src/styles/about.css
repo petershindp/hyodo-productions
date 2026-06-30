@@ -1,143 +1,285 @@
 .about-page {
-  min-height: 100vh;
-  padding: 120px 32px 80px;
+	min-height: 100vh;
+	padding: 120px 32px 80px;
 }
 
 .about-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--muted);
+	display: block;
 }
 
 .about-title {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: clamp(36px, 6.4vw, 104px);
-  line-height: 1.0;
-  letter-spacing: -0.03em;
-  margin: 18px 0 0;
-  max-width: 18ch;
+	font-family: var(--font-heading);
+	font-weight: 700;
+	font-size: clamp(36px, 6.4vw, 104px);
+	line-height: 1;
+	letter-spacing: -0.035em;
+	margin: 18px 0 0;
+	max-width: 18ch;
+	text-wrap: balance;
 }
 
 .about-accent {
-  color: var(--accent);
+	color: var(--accent);
 }
 
-.about-body {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  margin: 72px 0;
-  padding-top: 40px;
-  border-top: 1px solid var(--border);
+/* Who we are */
+.about-who {
+	margin: 72px 0 64px;
+	padding-top: 40px;
+	border-top: 1px solid var(--border);
+	max-width: 60ch;
 }
 
-.about-col-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  display: block;
-  margin-bottom: 16px;
+.about-who-label {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--accent);
+	display: block;
 }
 
-.about-col-text {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--body-text);
+.about-who-text {
+	margin: 16px 0 0;
+	font-size: 17px;
+	line-height: 1.6;
+	color: #2b2a25;
 }
 
+/* The name — dark band */
+.about-name-band {
+	display: grid;
+	grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+	gap: 56px;
+	align-items: center;
+	background: var(--dark-bg);
+	color: #f2f0e9;
+	padding: 72px 56px;
+	margin-bottom: 72px;
+}
+
+.about-name-left {
+	border-right: 1px solid rgba(242, 240, 233, 0.16);
+	padding-right: 40px;
+}
+
+.about-name-eyebrow {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--accent);
+	display: block;
+}
+
+.about-name-korean {
+	font-family:
+		"Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+	font-weight: 600;
+	font-size: clamp(72px, 11vw, 132px);
+	line-height: 1;
+	letter-spacing: 0.02em;
+	margin: 18px 0 22px;
+}
+
+.about-name-roman {
+	font-family: var(--font-heading);
+	font-weight: 600;
+	font-size: 22px;
+	letter-spacing: -0.01em;
+	color: #f2f0e9;
+}
+
+.about-name-def {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #9b978d;
+	line-height: 1.7;
+	margin-top: 8px;
+}
+
+.about-name-right {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.about-name-quote {
+	font-family: var(--font-heading);
+	font-weight: 500;
+	font-size: clamp(22px, 2.6vw, 30px);
+	line-height: 1.35;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+	margin: 0;
+	color: #f2f0e9;
+}
+
+.about-name-body {
+	font-size: 17px;
+	line-height: 1.65;
+	color: #c9c6bd;
+	max-width: 52ch;
+	margin: 24px 0 0;
+}
+
+/* Studio / team photo */
 .about-studio-img {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2.39;
-  background: repeating-linear-gradient(
-    135deg,
-    #E6E3DC,
-    #E6E3DC 16px,
-    #DDD9D1 16px,
-    #DDD9D1 32px
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 72px;
+	position: relative;
+	width: 100%;
+	aspect-ratio: 2.39;
+	background: repeating-linear-gradient(
+		135deg,
+		#e6e3dc,
+		#e6e3dc 16px,
+		#ddd9d1 16px,
+		#ddd9d1 32px
+	);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 72px;
+	overflow: hidden;
+}
+
+.about-studio-img img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .about-studio-img-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: #A6A299;
-  text-transform: uppercase;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	letter-spacing: 0.2em;
+	color: #a6a299;
+	text-transform: uppercase;
 }
 
-.about-services-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 8px;
+/* BTS mosaic collage */
+
+.about-mosaic {
+	columns: 3;
+	column-gap: 3px;
+	margin-bottom: 72px;
 }
 
-.about-services-title {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 13px;
-  margin: 0;
-  letter-spacing: 0.04em;
+.about-mosaic-item {
+	break-inside: avoid;
+	margin-bottom: 3px;
+	overflow: hidden;
+	background: #e6e3dc;
 }
 
-.about-services-count {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
+.about-mosaic-item img {
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.about-service-row {
-  display: grid;
-  grid-template-columns: 56px 1fr 2fr;
-  gap: 20px;
-  align-items: baseline;
-  padding: 26px 4px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.about-service-n {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.about-service-name {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: clamp(22px, 3vw, 36px);
-  letter-spacing: -0.02em;
-}
-
-.about-service-desc {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--body-text);
+.about-mosaic-item:hover img {
+	transform: scale(1.04);
 }
 
 @media (max-width: 700px) {
-  .about-page {
-    padding: 100px 20px 60px;
-  }
-  .about-service-row {
-    grid-template-columns: 40px 1fr;
-    grid-template-rows: auto auto;
-  }
-  .about-service-desc {
-    grid-column: 2;
-    font-size: 14px;
-  }
+	.about-mosaic {
+		columns: 2;
+	}
+}
+
+/* What we do */
+.about-services-header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	padding-bottom: 18px;
+	border-bottom: 1px solid var(--border);
+	margin-bottom: 8px;
+}
+
+.about-services-title {
+	font-family: var(--font-heading);
+	font-weight: 600;
+	font-size: 13px;
+	margin: 0;
+	letter-spacing: 0.04em;
+}
+
+.about-services-count {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	color: var(--muted);
+}
+
+.about-service-row {
+	display: grid;
+	grid-template-columns: 56px 1fr 2fr;
+	gap: 20px;
+	align-items: baseline;
+	padding: 26px 4px;
+	border-bottom: 1px solid var(--border-light);
+}
+
+.about-service-n {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	color: var(--muted);
+}
+
+.about-service-name {
+	font-family: var(--font-heading);
+	font-weight: 700;
+	font-size: clamp(22px, 3vw, 36px);
+	letter-spacing: -0.02em;
+}
+
+.about-service-desc {
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--body-text);
+}
+
+@media (max-width: 860px) {
+	.about-name-band {
+		grid-template-columns: 1fr;
+		padding: 56px 32px;
+		gap: 40px;
+	}
+
+	.about-name-left {
+		border-right: none;
+		border-bottom: 1px solid rgba(242, 240, 233, 0.16);
+		padding-right: 0;
+		padding-bottom: 40px;
+	}
+}
+
+@media (max-width: 700px) {
+	.about-page {
+		padding: 100px 20px 60px;
+	}
+
+	.about-name-band {
+		padding: 48px 24px;
+	}
+
+	.about-service-row {
+		grid-template-columns: 40px 1fr;
+		grid-template-rows: auto auto;
+	}
+
+	.about-service-desc {
+		grid-column: 2;
+		font-size: 14px;
+	}
 }

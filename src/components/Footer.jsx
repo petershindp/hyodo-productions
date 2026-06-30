@@ -1,13 +1,22 @@
 import "../styles/footer.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { scrollToTop } from "../utils/navigation";
 
 export default function Footer() {
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	const handleLogoClick = () => {
+		if (location.pathname !== "/") {
+			navigate("/");
+		}
+		scrollToTop();
+	};
 
 	return (
 		<footer className="footer">
 			<div className="footer-top">
-				<button className="footer-logo" onClick={() => navigate("/")}>
+				<button className="footer-logo" onClick={handleLogoClick}>
 					hyodo<sup className="footer-logo-tm">™</sup>
 				</button>
 				<div className="footer-cols">
@@ -25,8 +34,12 @@ export default function Footer() {
 					</div>
 					<div className="footer-col">
 						<span className="footer-col-label">Connect</span>
-						<a href="mailto:hello@hyodo.co" className="footer-link">
-							hello@hyodo.co
+						<a
+							href="mailto:hello@hyodoproductions.com
+						"
+							className="footer-link"
+						>
+							hello@hyodoproductions.com
 						</a>
 						<a
 							href="https://www.instagram.com/"

@@ -50,7 +50,7 @@ export default function ProjectDetails() {
 
   const stillUrls = project.stills
     ? project.stills.map((still) =>
-        builder.image(still).width(1600).height(900).fit("crop").auto("format").url()
+        builder.image(still).width(1600).auto("format").url()
       )
     : [];
 
@@ -106,6 +106,7 @@ export default function ProjectDetails() {
                 src={url}
                 alt={`${project.title} still ${index + 1}`}
                 className="project-still"
+                style={{ aspectRatio: project.aspectRatio || "16/9" }}
               />
             ))}
           </div>

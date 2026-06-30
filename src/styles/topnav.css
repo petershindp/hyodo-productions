@@ -1,77 +1,67 @@
 .topnav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 32px;
-  mix-blend-mode: difference;
-  pointer-events: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 22px 32px;
+	mix-blend-mode: difference;
+	pointer-events: none;
 }
 
 .topnav-logo {
-  pointer-events: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  color: #fff;
+	pointer-events: auto;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	display: flex;
+	align-items: baseline;
+	gap: 5px;
+	color: #fff;
 }
 
-.topnav-logo-main {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -0.03em;
-}
-
-.topnav-logo-sub {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  opacity: 0.7;
+.topnav-logo-svg {
+	height: 28px;
+	width: auto;
+	display: block;
+	fill: currentColor;
 }
 
 .topnav-links {
-  pointer-events: auto;
-  display: flex;
-  gap: 4px;
-  align-items: center;
+	pointer-events: auto;
+	display: flex;
+	gap: 4px;
+	align-items: center;
 }
 
 .topnav-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 7px 14px;
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: opacity 0.2s;
-  text-decoration: none;
-  display: inline-block;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 7px 14px;
+	color: #fff;
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	transition: opacity 0.2s;
+	text-decoration: none;
+	display: inline-block;
 }
 
 .topnav-link:hover {
-  opacity: 0.55;
+	opacity: 0.55;
 }
 
 @media (max-width: 480px) {
-  .topnav {
-    padding: 18px 20px;
-  }
-  .topnav-logo-sub {
-    display: none;
-  }
-  .topnav-link {
-    padding: 6px 10px;
-  }
+	.topnav {
+		padding: 18px 20px;
+	}
+.topnav-link {
+		padding: 6px 10px;
+	}
 }

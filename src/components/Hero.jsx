@@ -11,14 +11,14 @@ const INTERVAL = 10000;
 
 export default function Hero() {
 	const [works, setWorks] = useState([]);
-	const [heroTitle, setHeroTitle] = useState("Hyodo Productions");
+	const [heroTitle, setHeroTitle] = useState("");
 	const [current, setCurrent] = useState(0);
 	const videoRefs = useRef({});
 
 	useEffect(() => {
 		Promise.all([
 			client.fetch(
-				`*[_type == "work"] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
+				`*[_type == "work" && featured == true] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
 			),
 			client.fetch(`*[_type == "hero"][0]{ title }`),
 		])
