@@ -42,20 +42,12 @@ export default function Footer() {
 							hello@hyodoproductions.com
 						</a>
 						<a
-							href="https://www.instagram.com/"
+							href="https://www.instagram.com/hyodoproductions/"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="footer-link"
 						>
 							Instagram
-						</a>
-						<a
-							href="https://vimeo.com/"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="footer-link"
-						>
-							Vimeo
 						</a>
 					</div>
 				</div>
