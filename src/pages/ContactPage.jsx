@@ -2,6 +2,7 @@ import { useState } from "react";
 import TopNav from "../components/TopNav";
 import Footer from "../components/Footer";
 import "../styles/contact.css";
+import { useSEO } from "../hooks/useSEO";
 
 const CONTACTS = [
 	{
@@ -15,6 +16,13 @@ const CONTACTS = [
 const ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT;
 
 export default function ContactPage() {
+	useSEO({
+		title: "Contact",
+		description:
+			"Get in touch with Hyodo Productions to start your next film, commercial or music video project.",
+		path: "/contact",
+	});
+
 	const [fields, setFields] = useState({
 		name: "",
 		email: "",

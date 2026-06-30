@@ -11,6 +11,7 @@ export default function HeroAbout() {
 	const navigate = useNavigate();
 	const [photos, setPhotos] = useState([]);
 	const [current, setCurrent] = useState(0);
+	const [timerKey, setTimerKey] = useState(0);
 
 	useEffect(() => {
 		client
@@ -21,6 +22,7 @@ export default function HeroAbout() {
 			.catch(() => {});
 	}, []);
 
+	// Auto-advance — restarts whenever timerKey changes (manual navigation)
 	useEffect(() => {
 		if (photos.length < 2) return;
 		const id = setInterval(
@@ -28,10 +30,12 @@ export default function HeroAbout() {
 			BTS_INTERVAL,
 		);
 		return () => clearInterval(id);
-	}, [photos.length]);
+	}, [photos.length, timerKey]);
 
-	const go = (dir) =>
+	const go = (dir) => {
 		setCurrent((c) => (c + dir + photos.length) % photos.length);
+		setTimerKey((k) => k + 1);
+	};
 
 	return (
 		<section className="about-preview">

@@ -5,10 +5,18 @@ import Footer from "../components/Footer";
 import WorkCard from "../components/WorkCard";
 import "../styles/grid.css";
 import "../styles/workpage.css";
+import { useSEO } from "../hooks/useSEO";
 
 const FILTERS = ["All", "Feature Film", "Music Video", "Commercial", "Documentary", "Short Film"];
 
 export default function WorkPage() {
+  useSEO({
+    title: "Work",
+    description:
+      "Films, commercials and music videos from Hyodo Productions — a catalogue we maintain, not a feed we flush.",
+    path: "/work",
+  });
+
   const [work, setWork] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
@@ -16,7 +24,7 @@ export default function WorkPage() {
   useEffect(() => {
     client
       .fetch(
-        `*[_type == "work"] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`
+        `*[_type == "work"] | order(orderRank asc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`
       )
       .then((data) => {
         setWork(data);

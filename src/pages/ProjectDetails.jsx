@@ -5,6 +5,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import TopNav from "../components/TopNav";
 import Footer from "../components/Footer";
 import "../styles/projectDetails.css";
+import { useSEO } from "../hooks/useSEO";
 
 const builder = imageUrlBuilder(client);
 
@@ -28,6 +29,7 @@ export default function ProjectDetails() {
           description,
           videoLink,
           aspectRatio,
+          thumbnail,
           stills[]
         }`,
         { projectId }
@@ -38,6 +40,15 @@ export default function ProjectDetails() {
       })
       .catch(() => setLoading(false));
   }, [projectId]);
+
+  useSEO({
+    title: project?.title,
+    description: project?.description,
+    path: `/work/${projectId}`,
+    image: project?.thumbnail
+      ? builder.image(project.thumbnail).width(1200).height(630).fit("crop").auto("format").url()
+      : undefined,
+  });
 
   if (loading) return <div className="project-loading">Loading…</div>;
   if (!project)

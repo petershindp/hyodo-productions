@@ -12,7 +12,7 @@ export default function WorkGrid({ limit }) {
 	useEffect(() => {
 		client
 			.fetch(
-				`*[_type == "work" && featured == true] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
+				`*[_type == "work" && featured == true] | order(orderRank asc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
 			)
 			.then((data) => {
 				setWork(data);

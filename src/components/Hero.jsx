@@ -13,12 +13,13 @@ export default function Hero() {
 	const [works, setWorks] = useState([]);
 	const [heroTitle, setHeroTitle] = useState("");
 	const [current, setCurrent] = useState(0);
+	const [timerKey, setTimerKey] = useState(0);
 	const videoRefs = useRef({});
 
 	useEffect(() => {
 		Promise.all([
 			client.fetch(
-				`*[_type == "work" && featured == true] | order(publishedAt desc, _createdAt desc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
+				`*[_type == "work" && featured == true] | order(orderRank asc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
 			),
 			client.fetch(`*[_type == "hero"][0]{ title }`),
 		])
@@ -42,7 +43,7 @@ export default function Hero() {
 		});
 	}, [current, works.length]);
 
-	// Auto-advance
+	// Auto-advance — restarts whenever timerKey changes (manual navigation)
 	useEffect(() => {
 		if (works.length < 2) return;
 		const id = setInterval(
@@ -50,56 +51,61 @@ export default function Hero() {
 			INTERVAL,
 		);
 		return () => clearInterval(id);
-	}, [works.length]);
+	}, [works.length, timerKey]);
 
-	const go = (index) => setCurrent((index + works.length) % works.length);
+	const go = (index) => {
+		setCurrent((index + works.length) % works.length);
+		setTimerKey((k) => k + 1);
+	};
 
 	const slide = works[current];
 
 	return (
 		<section className="hero">
-			{/* Video/image slides */}
-			{works.map((w, i) => {
-				const thumbUrl = w.thumbnail
-					? builder
-							.image(w.thumbnail)
-							.width(2400)
-							.height(1350)
-							.fit("crop")
-							.auto("format")
-							.url()
-					: null;
-				return (
-					<div
-						key={w._id}
-						className={`hero-slide${i === current ? " hero-slide-active" : ""}`}
-					>
-						{w.video?.asset?.url ? (
-							<video
-								ref={(el) => {
-									videoRefs.current[i] = el;
-								}}
-								src={w.video.asset.url}
-								className="hero-slide-video"
-								muted
-								playsInline
-								loop
-							/>
-						) : thumbUrl ? (
-							<div
-								className="hero-slide-bg"
-								style={{ backgroundImage: `url(${thumbUrl})` }}
-							/>
-						) : null}
-					</div>
-				);
-			})}
+			{/* Video wrap — full-bleed on desktop, 16:9 on mobile */}
+			<div className="hero-video-wrap">
+				{works.map((w, i) => {
+					const thumbUrl = w.thumbnail
+						? builder
+								.image(w.thumbnail)
+								.width(2400)
+								.height(1350)
+								.fit("crop")
+								.auto("format")
+								.url()
+						: null;
+					return (
+						<div
+							key={w._id}
+							className={`hero-slide${i === current ? " hero-slide-active" : ""}`}
+						>
+							{w.video?.asset?.url ? (
+								<video
+									ref={(el) => {
+										videoRefs.current[i] = el;
+									}}
+									src={w.video.asset.url}
+									className="hero-slide-video"
+									muted
+									playsInline
+									loop
+								/>
+							) : thumbUrl ? (
+								<div
+									className="hero-slide-bg"
+									style={{ backgroundImage: `url(${thumbUrl})` }}
+								/>
+							) : null}
+						</div>
+					);
+				})}
 
-			<div className="hero-gradient" />
+				<div className="hero-gradient" />
 
-			{/* Persistent studio title */}
-			<div className="hero-studio">
-				<span className="hero-studio-title">{heroTitle}</span>
+				{/* Persistent studio title */}
+				<div className="hero-studio">
+					<span className="hero-studio-title">{heroTitle}</span>
+				</div>
 			</div>
 
 			{/* Per-slide content */}

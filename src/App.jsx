@@ -26,6 +26,7 @@ import ProjectDetails from "./pages/ProjectDetails";
 import WorkPage from "./pages/WorkPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import { useSEO } from "./hooks/useSEO";
 
 function GrainOverlay() {
 	return (
@@ -46,9 +47,18 @@ function GrainOverlay() {
 }
 
 function HomePage() {
+	useSEO({
+		description:
+			"Hyodo Productions — story first, built to last. Film, commercials and music videos.",
+		path: "/",
+	});
+
 	return (
 		<div>
 			<TopNav />
+			<h1 className="sr-only">
+				Hyodo Productions — Film, Commercial &amp; Music Video Production Studio
+			</h1>
 			<Hero />
 			<HeroAbout />
 			<WorkGrid limit={6} />

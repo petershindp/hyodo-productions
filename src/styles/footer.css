@@ -39,6 +39,24 @@
   letter-spacing: 0;
 }
 
+.footer-logo-img {
+  height: clamp(80px, 16vw, 180px);
+  width: auto;
+  display: block;
+  background-color: var(--fg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: left center;
+  mask-position: left center;
+  transition: background-color 0.25s ease;
+}
+
+.footer-logo:hover .footer-logo-img {
+  background-color: var(--accent);
+}
+
 .footer-cols {
   display: flex;
   gap: 56px;

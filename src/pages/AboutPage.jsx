@@ -4,6 +4,7 @@ import "../styles/about.css";
 import { useState, useEffect } from "react";
 import { client } from "../client";
 import imageUrlBuilder from "@sanity/image-url";
+import { useSEO } from "../hooks/useSEO";
 
 const builder = imageUrlBuilder(client);
 
@@ -27,6 +28,13 @@ const SERVICES = [
 
 
 export default function AboutPage() {
+	useSEO({
+		title: "About",
+		description:
+			"Hyodo Productions is an independent production company working across film, commercials and music videos — story first, built to last.",
+		path: "/about",
+	});
+
 	const [stills, setStills] = useState([]);
 
 	useEffect(() => {

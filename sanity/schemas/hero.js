@@ -12,6 +12,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'footerLogo',
+      title: 'Footer Logo',
+      type: 'image',
+      description: 'Logo image displayed in the footer. Upload a PNG with a transparent background.',
+    },
+    {
       name: 'btsPhotos',
       title: 'BTS Photos',
       type: 'array',
