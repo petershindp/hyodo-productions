@@ -26,12 +26,11 @@ const SERVICES = [
 	},
 ];
 
-
 export default function AboutPage() {
 	useSEO({
 		title: "About",
 		description:
-			"Hyodo Productions is an independent production company working across film, commercials and music videos — story first, built to last.",
+			"Hyodo Productions is an independent production company working across film, commercials and music videos — led by story, crafted to last.",
 		path: "/about",
 	});
 

@@ -49,7 +49,7 @@ function GrainOverlay() {
 function HomePage() {
 	useSEO({
 		description:
-			"Hyodo Productions — story first, built to last. Film, commercials and music videos.",
+			"Hyodo Productions — led by story, crafted to last. Film, commercials and music videos.",
 		path: "/",
 	});
 

@@ -55,7 +55,9 @@ export default function Footer() {
 							aria-label="Hyodo Productions"
 						/>
 					) : (
-						<>hyodo<sup className="footer-logo-tm">™</sup></>
+						<>
+							hyodo<sup className="footer-logo-tm">™</sup>
+						</>
 					)}
 				</button>
 				<div className="footer-cols">
@@ -73,10 +75,7 @@ export default function Footer() {
 					</div>
 					<div className="footer-col">
 						<span className="footer-col-label">Connect</span>
-						<a
-							href="mailto:hello@hyodoproductions.com"
-							className="footer-link"
-						>
+						<a href="mailto:hello@hyodoproductions.com" className="footer-link">
 							hello@hyodoproductions.com
 						</a>
 						<a
@@ -91,7 +90,7 @@ export default function Footer() {
 				</div>
 			</div>
 			<div className="footer-bottom">
-				<span>© 2026 Hyodo Productions — Story first. Built to last.</span>
+				<span>© 2026 Hyodo Productions — Led by story. Crafted to last.</span>
 				<span>Los Angeles / Worldwide</span>
 			</div>
 		</footer>
