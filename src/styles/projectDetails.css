@@ -88,17 +88,61 @@
   color: var(--body-text);
   max-width: 64ch;
   margin: 0 0 40px;
+  white-space: pre-wrap;
 }
 
-.project-media {
-  width: 100%;
+.project-video-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--fg);
   margin-bottom: 48px;
+  transition: color 0.2s ease;
 }
 
-.project-video {
-  width: 100%;
-  display: block;
-  border: none;
+.project-video-link:hover {
+  color: var(--accent);
+}
+
+.project-video-link-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project-video-link-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.project-video-link:hover .project-video-link-eyebrow {
+  color: var(--accent);
+}
+
+.project-video-link-label {
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.project-video-link-arrow {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.project-video-link:hover .project-video-link-arrow {
+  transform: translate(5px, -5px);
 }
 
 .project-stills {
