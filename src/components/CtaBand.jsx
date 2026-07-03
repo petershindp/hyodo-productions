@@ -58,7 +58,7 @@ export default function CtaBand() {
 					</a>
 					<Link to="/contact" className="ctaband-btn">
 						<span>Contact Us</span>
-						<span className="ctaband-arrow">↗</span>
+						<span className="ctaband-arrow">↗︎</span>
 					</Link>
 					<p className="ctaband-location">Los Angeles / Worldwide</p>
 				</div>

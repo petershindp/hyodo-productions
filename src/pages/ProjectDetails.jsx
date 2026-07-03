@@ -136,7 +136,7 @@ export default function ProjectDetails() {
 										Watch full film
 									</span>
 								</div>
-								<span className="project-video-link-arrow">↗</span>
+								<span className="project-video-link-arrow">{'↗︎'}</span>
 							</a>
 						);
 					})()}

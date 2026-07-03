@@ -149,7 +149,7 @@ export default function ContactPage() {
 								className="contact-submit"
 								disabled={status === "sending"}
 							>
-								{status === "sending" ? "Sending…" : "Send inquiry ↗"}
+								{status === "sending" ? "Sending…" : "Send inquiry ↗︎"}
 							</button>
 						</>
 					)}

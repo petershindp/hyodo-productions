@@ -57,7 +57,7 @@ export default function WorkGrid({ limit }) {
 			{limit && !loading && !error && (
 				<div className="work-view-all">
 					<Link to="/work" className="work-view-all-link">
-						View all work ↗
+						View all work ↗︎
 					</Link>
 				</div>
 			)}

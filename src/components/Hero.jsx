@@ -123,7 +123,7 @@ export default function Hero() {
 							</div>
 							<p className="hero-slide-title">{slide.title}</p>
 							<Link to={`/work/${slide.projectId}`} className="hero-cta">
-								View Project ↗
+								View Project ↗︎
 							</Link>
 						</>
 					)}
