@@ -16,6 +16,8 @@ export default function Hero() {
 	const [reelVideoUrl, setReelVideoUrl] = useState("/hero-reel.mp4");
 	const [reelLink, setReelLink] = useState(null);
 	const [logo, setLogo] = useState(null);
+	const [logoReady, setLogoReady] = useState(false);
+	const [heroDataLoaded, setHeroDataLoaded] = useState(false);
 	const [scrollVals, setScrollVals] = useState(() => getScrollVals(0, false));
 	const prefersReduced = useRef(
 		typeof window !== "undefined" &&
@@ -32,7 +34,8 @@ export default function Hero() {
 				if (data?.reelLink) setReelLink(data.reelLink);
 				if (data?.footerLogo) setLogo(data.footerLogo);
 			})
-			.catch(() => {});
+			.catch(() => {})
+			.finally(() => setHeroDataLoaded(true));
 	}, []);
 
 	const logoUrl = logo ? builder.image(logo).height(1080).auto("format").url() : null;
@@ -40,6 +43,22 @@ export default function Hero() {
 	const logoAspectRatio = logoDimensions
 		? logoDimensions.width / logoDimensions.height
 		: 3;
+
+	// Preload the mask image fully before revealing it, so the crossfade
+	// never shows a half-downloaded/blank mask.
+	useEffect(() => {
+		if (!logoUrl) {
+			setLogoReady(false);
+			return;
+		}
+		setLogoReady(false);
+		const img = new Image();
+		img.onload = () => setLogoReady(true);
+		img.src = logoUrl;
+		return () => {
+			img.onload = null;
+		};
+	}, [logoUrl]);
 
 	useEffect(() => {
 		if (prefersReduced.current) {
@@ -96,6 +115,7 @@ export default function Hero() {
 						<span
 							className="hero-reel-logo"
 							style={{
+								opacity: logoReady ? 1 : 0,
 								WebkitMaskImage: `url(${logoUrl})`,
 								maskImage: `url(${logoUrl})`,
 								aspectRatio: logoAspectRatio,
@@ -103,12 +123,14 @@ export default function Hero() {
 							}}
 						/>
 					) : (
-						<span
-							className="hero-reel-word"
-							style={{ transform: `scale(${scrollVals.textScale})` }}
-						>
-							HYODO
-						</span>
+						heroDataLoaded && (
+							<span
+								className="hero-reel-word"
+								style={{ transform: `scale(${scrollVals.textScale})` }}
+							>
+								HYODO
+							</span>
+						)
 					)}
 				</div>
 

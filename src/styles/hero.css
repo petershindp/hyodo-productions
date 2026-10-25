@@ -57,6 +57,13 @@
 	-webkit-mask-position: center;
 	mask-position: center;
 	transform-origin: center;
+	transition: opacity 600ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-reel-logo {
+		transition: none;
+	}
 }
 
 .hero-reel-caption {

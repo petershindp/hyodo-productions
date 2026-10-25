@@ -51,7 +51,9 @@ function SweepWord({ word, delay, prefersReduced }) {
 	}, [delay, prefersReduced]);
 
 	return (
-		<span className={`about-sweep-word${active ? " about-sweep-word--active" : ""}`}>
+		<span
+			className={`about-sweep-word${active ? " about-sweep-word--active" : ""}`}
+		>
 			{word}
 		</span>
 	);
@@ -132,10 +134,7 @@ function KoreanName() {
 					};
 				};
 
-				setVals([
-					focus(pn / 0.7),
-					focus((pn - 0.3) / 0.7),
-				]);
+				setVals([focus(pn / 0.7), focus((pn - 0.3) / 0.7)]);
 			});
 		};
 
@@ -194,11 +193,7 @@ function Mosaic({ stills }) {
 				const vh = window.innerHeight;
 				const rect = el.getBoundingClientRect();
 				const p = clamp((vh - rect.top) / (rect.height + vh));
-				setOffsets([
-					(p - 0.5) * -180,
-					(p - 0.5) * 140,
-					(p - 0.5) * -60,
-				]);
+				setOffsets([(p - 0.5) * -180, (p - 0.5) * 140, (p - 0.5) * -60]);
 			});
 		};
 
@@ -221,7 +216,10 @@ function Mosaic({ stills }) {
 				<div
 					key={ci}
 					className="about-mosaic-col"
-					style={{ transform: `translateY(${offsets[ci]}px)`, willChange: "transform" }}
+					style={{
+						transform: `translateY(${offsets[ci]}px)`,
+						willChange: "transform",
+					}}
 				>
 					{col.map((img, i) => (
 						<img
@@ -265,12 +263,21 @@ export default function AboutPage() {
 
 			{/* ── Headline ── */}
 			<section className="about-headline">
-				<p className="about-eyebrow">About / Studio</p>
+				<p className="about-eyebrow">About</p>
 				<h1 className="about-title">
 					We build legacy through{" "}
-					<SweepWord word="authentic" delay={0} prefersReduced={prefersReduced} />{" "}
+					<SweepWord
+						word="authentic"
+						delay={0}
+						prefersReduced={prefersReduced}
+					/>{" "}
 					<SweepWord word="human" delay={260} prefersReduced={prefersReduced} />{" "}
-					<SweepWord word="stories" delay={520} prefersReduced={prefersReduced} />.
+					<SweepWord
+						word="stories"
+						delay={520}
+						prefersReduced={prefersReduced}
+					/>
+					.
 				</h1>
 			</section>
 
@@ -300,9 +307,9 @@ export default function AboutPage() {
 					</p>
 					<p className="about-name-body">
 						In the same way our first-generation immigrant parents entrusted
-						their dreams and visions to us, we set out to honor what they
-						taught us — and to preserve the legacies and the visions of
-						everyone we work with. That's the whole reason this studio exists.
+						their dreams and visions to us, we set out to honor what they taught
+						us — and to preserve the legacies and the visions of everyone we
+						work with. That's the whole reason this company exists.
 					</p>
 				</div>
 			</section>
