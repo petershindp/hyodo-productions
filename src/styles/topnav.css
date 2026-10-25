@@ -53,7 +53,9 @@
 
 .topnav-link--active {
 	text-decoration: underline;
-	text-decoration-color: #8A1414;
+	/* Pre-inverted so the parent .topnav's mix-blend-mode: difference
+	   resolves this to the true accent red (#8A1414) against a white page. */
+	text-decoration-color: #75EBEB;
 	text-decoration-thickness: 2px;
 	text-underline-offset: 8px;
 }

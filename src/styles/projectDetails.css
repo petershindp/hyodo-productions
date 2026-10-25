@@ -287,6 +287,12 @@
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
+	.pd-header {
+		/* Fixed .topnav is ~52px tall on mobile (12px padding + 28px logo);
+		   clear it so .pd-back isn't rendered underneath/unclickable. */
+		padding-top: 96px;
+	}
+
 	.pd-title {
 		font-size: clamp(40px, 10vw, 80px);
 	}
