@@ -1,6 +1,6 @@
 import "../styles/footer.css";
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { scrollToTop } from "../utils/navigation";
 import { client } from "../client";
 import imageUrlBuilder from "@sanity/image-url";
@@ -57,15 +57,9 @@ export default function Footer({ dark = false }) {
 					</button>
 
 					<div className="footer-cols">
-						<nav className="footer-col" aria-label="Footer menu">
-							<span className="footer-col-label">Menu</span>
-							<Link to="/work" className="footer-link">Work</Link>
-							<Link to="/about" className="footer-link">About</Link>
-							<Link to="/contact" className="footer-link">Contact</Link>
-						</nav>
 						<div className="footer-col">
 							<span className="footer-col-label">Connect</span>
-							<a href="mailto:hello@hyodoproductions.com" className="footer-link">
+							<a href="mailto:hello@hyodoproductions.com" className="footer-link footer-link-email">
 								hello@hyodoproductions.com
 							</a>
 							<a href="https://www.instagram.com/hyodoproductions/" target="_blank" rel="noopener noreferrer" className="footer-link">

@@ -170,10 +170,6 @@
 		grid-template-columns: 1fr;
 	}
 
-	.work-tile-media {
-		aspect-ratio: 4 / 5;
-	}
-
 	.work-tile-title {
 		font-size: 30px;
 	}

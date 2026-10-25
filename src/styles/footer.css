@@ -98,6 +98,10 @@
 	overflow-wrap: anywhere;
 }
 
+.footer-link-email {
+	white-space: nowrap;
+}
+
 .footer-link:hover {
 	color: var(--muted);
 }
@@ -138,8 +142,8 @@
 
 @media (max-width: 768px) {
 	.footer-cols {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		display: flex;
+		flex-direction: column;
 		gap: 24px;
 	}
 

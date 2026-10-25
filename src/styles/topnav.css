@@ -1,15 +1,13 @@
 .topnav {
-	width: 100%;
-	box-sizing: border-box;
-}
-
-.topnav--transparent {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 3;
+	width: 100%;
+	box-sizing: border-box;
+	z-index: 40;
 	color: #FFFFFF;
+	mix-blend-mode: difference;
 }
 
 .topnav-inner {

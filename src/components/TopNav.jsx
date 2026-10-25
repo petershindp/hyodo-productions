@@ -20,7 +20,7 @@ const LogoMark = ({ className }) => (
 	</svg>
 );
 
-export default function TopNav({ transparent = false }) {
+export default function TopNav() {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -42,7 +42,7 @@ export default function TopNav({ transparent = false }) {
 
 	return (
 		<>
-			<header className={`topnav${transparent ? " topnav--transparent" : ""}`}>
+			<header className="topnav">
 				<div className="topnav-inner">
 					<button className="topnav-logo" onClick={handleLogoClick} aria-label="Hyodo Productions — home">
 						<LogoMark className="topnav-logo-svg" />

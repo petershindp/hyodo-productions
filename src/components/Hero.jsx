@@ -2,7 +2,6 @@ import "../styles/hero.css";
 import { useState, useEffect, useRef } from "react";
 import { client } from "../client";
 import imageUrlBuilder from "@sanity/image-url";
-import TopNav from "./TopNav";
 
 const builder = imageUrlBuilder(client);
 
@@ -112,8 +111,6 @@ export default function Hero() {
 						</span>
 					)}
 				</div>
-
-				<TopNav transparent />
 
 				<div className="hero-reel-caption" style={{ opacity: scrollVals.captionOpacity }}>
 					<span>Driven by story. Crafted to last.</span>

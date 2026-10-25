@@ -18,6 +18,7 @@ function ScrollToTop() {
 import Hero from "./components/Hero";
 import WorkGrid from "./components/WorkGrid";
 import Footer from "./components/Footer";
+import TopNav from "./components/TopNav";
 import ProjectDetails from "./pages/ProjectDetails";
 import WorkPage from "./pages/WorkPage";
 import AboutPage from "./pages/AboutPage";
@@ -36,6 +37,7 @@ function HomePage() {
 			<h1 className="sr-only">
 				Hyodo Productions — Film, Commercial &amp; Music Video Production Studio
 			</h1>
+			<TopNav />
 			<Hero />
 			<WorkGrid limit={6} />
 			<Footer />

@@ -1,13 +1,13 @@
 .hero-reel {
 	position: relative;
-	height: calc(100vh * 2.6);
+	height: calc(100dvh * 2.6);
 	background: #000000;
 }
 
 .hero-reel-stage {
 	position: sticky;
 	top: 0;
-	height: 100vh;
+	height: 100dvh;
 	overflow: hidden;
 	background: #000000;
 }
@@ -59,15 +59,6 @@
 	transform-origin: center;
 }
 
-/* Nav sits above the mask layer */
-.hero-reel-stage > .topnav {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 3;
-}
-
 .hero-reel-caption {
 	position: absolute;
 	left: 0;
@@ -116,15 +107,6 @@
 }
 
 @media (max-width: 768px) {
-	.hero-reel {
-		height: 720px;
-	}
-
-	.hero-reel-stage {
-		position: relative;
-		height: 720px;
-	}
-
 	.hero-reel-word {
 		font-size: 132px;
 		letter-spacing: -0.06em;
