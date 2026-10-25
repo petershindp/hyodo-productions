@@ -13,16 +13,29 @@ export default {
     },
     {
       name: 'footerLogo',
-      title: 'Footer Logo',
+      title: 'Logo (Hero & Footer)',
       type: 'image',
-      description: 'Logo image displayed in the footer. Upload a PNG with a transparent background.',
+      description: 'Logo used for the "HYODO" mask in the home hero and for the footer wordmark. Upload an SVG or PNG with a transparent background.',
+    },
+    {
+      name: 'reelVideo',
+      title: 'Reel Video',
+      type: 'file',
+      options: {accept: 'video/*'},
+      description: 'Looping reel video shown in the home hero (plays through the HYODO letters).',
+    },
+    {
+      name: 'reelLink',
+      title: 'Reel Link',
+      type: 'url',
+      description: 'URL for the "Watch the full reel" button in the home hero (e.g. Vimeo or YouTube link).',
     },
     {
       name: 'btsPhotos',
-      title: 'BTS Photos',
+      title: 'BTS / Team Photos',
       type: 'array',
       of: [{type: 'image', options: {hotspot: true}}],
-      description: 'Behind-the-scenes photos shown in the carousel on the homepage About section.',
+      description: 'Behind-the-scenes and team photos shown in the mosaic on the About page.',
     },
   ],
 }

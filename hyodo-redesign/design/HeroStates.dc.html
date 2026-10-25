@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hero scroll — key states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+</style>
+</helmet>
+<div style="width: 1440px; height: 600px; box-sizing: border-box; padding: 56px; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', sans-serif; display: flex; flex-direction: column; gap: 32px">
+  <h1 style="margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -0.03em">Hero on scroll</h1>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <sc-for list="{{states}}" as="s" hint-placeholder-count="3">
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000000">
+          <img src="{{s.src}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+          <div aria-hidden="true" style="{{s.mask}}">
+            <span style="{{s.word}}">HYODO</span>
+          </div>
+        </div>
+        <figcaption style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">{{s.step}}</span>
+          <span style="font-size: 17px; line-height: 1.4">{{s.text}}</span>
+        </figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mk = (src, opacity, scale, step, text) => ({
+      src: src, step: step, text: text,
+      mask: 'position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #000000; mix-blend-mode: multiply; opacity: ' + opacity,
+      word: 'display: block; color: #FFFFFF; font-weight: 900; font-size: 104px; letter-spacing: -0.055em; line-height: 0.8; white-space: nowrap; transform: scale(' + scale + ')'
+    });
+    return {
+      states: [
+        mk('/_blob/b7bdb04ef1773b1e4f6192090e9d8dae', 1, 1, '01 — Load', 'The reel plays only through the letters. Black everywhere else.'),
+        mk('/_blob/05282a25c3c38d7aa34c8bf4ac88a2bd', 0.55, 1.9, '02 — Scroll', 'The word grows while the black lifts, so the footage bleeds out around it.'),
+        mk('/_blob/a985cf569809b57646ee6d97fbe5dfb3', 0, 3.2, '03 — Full reel', 'Full-bleed reel with a Watch the full reel button, then the work begins.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

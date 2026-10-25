@@ -23,6 +23,20 @@ Website for Hyodo Productions — built with React, Vite, and Sanity CMS.
    npm run dev
    ```
 
+## Hero Reel
+
+The homepage hero plays an auto-generated montage of short clips pulled from
+every project's preview video (`public/hero-reel.mp4`, committed to the repo).
+Regenerate it after adding, removing, or replacing a project's preview video:
+
+```bash
+npm run generate:hero-reel
+```
+
+Requires ffmpeg installed locally (`brew install ffmpeg`). Editors can still
+override this by uploading a video to **Site Settings → Reel Video** in
+Sanity Studio — that always takes priority over the generated montage.
+
 ## Sanity Studio
 
 The Sanity studio lives in the `/sanity` directory.

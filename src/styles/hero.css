@@ -1,381 +1,149 @@
-.hero {
+.hero-reel {
 	position: relative;
-	height: 100svh;
-	min-height: 560px;
+	height: calc(100vh * 2.6);
+	background: #000000;
+}
+
+.hero-reel-stage {
+	position: sticky;
+	top: 0;
+	height: 100vh;
 	overflow: hidden;
-	background: #100f0c;
-	cursor: default;
+	background: #000000;
 }
 
-/* Video wrap — full-bleed on desktop, 16:9 on mobile */
-.hero-video-wrap {
+.hero-reel-video {
 	position: absolute;
 	inset: 0;
-}
-
-/* Background slides — all rendered, opacity-switched */
-.hero-slide {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: opacity;
-}
-
-.hero-slide-active {
-	opacity: 1;
-}
-
-.hero-slide-video {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	display: block;
+	transform-origin: center;
 }
 
-.hero-slide-bg {
+/* Black multiply layer — HYODO text shows footage through letters */
+.hero-reel-mask {
 	position: absolute;
 	inset: 0;
-	background-size: cover;
-	background-position: center;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #000000;
+	mix-blend-mode: multiply;
 }
 
-/* Persistent studio title — centered, always visible */
-.hero-studio {
+.hero-reel-word {
+	display: block;
+	color: #FFFFFF;
+	font-family: var(--font-heading);
+	font-weight: 900;
+	font-size: clamp(130px, 30vw, 540px);
+	letter-spacing: -0.055em;
+	line-height: 0.8;
+	white-space: nowrap;
+	transform-origin: center;
+}
+
+.hero-reel-logo {
+	display: block;
+	width: clamp(320px, 74vw, 1080px);
+	height: auto;
+	background-color: #FFFFFF;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+	mask-size: contain;
+	-webkit-mask-position: center;
+	mask-position: center;
+	transform-origin: center;
+}
+
+/* Nav sits above the mask layer */
+.hero-reel-stage > .topnav {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding-top: 88px;
-	pointer-events: none;
-	animation: hero-studio-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
-}
-
-@keyframes hero-studio-in {
-	from {
-		opacity: 0;
-		transform: translateY(-10px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.hero-studio-title {
-	font-family: var(--font-heading);
-	font-weight: 700;
-	font-size: clamp(20.5px, 3.2vw, 46.1px);
-	letter-spacing: -0.03em;
-	color: #f2f0eb;
-	text-align: center;
-	line-height: 1;
-}
-
-/* Bottom-heavy gradient so text stays readable */
-.hero-gradient {
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		180deg,
-		rgba(16, 15, 12, 0.18) 0%,
-		rgba(16, 15, 12, 0) 35%,
-		rgba(16, 15, 12, 0.05) 58%,
-		rgba(16, 15, 12, 0.78) 100%
-	);
-}
-
-/* Main content row pinned to bottom */
-.hero-content {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 2;
-	padding: 40px 40px 52px;
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 32px;
-}
-
-/* Left: badge + title + CTA — re-mounts on slide change to replay animation */
-.hero-left {
-	display: flex;
-	flex-direction: column;
-	gap: 18px;
-	animation: hp-fadeup 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.hero-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 12px;
-}
-
-.hero-badge-pill {
-	background: var(--accent);
-	color: #fff;
-	font-family: var(--font-mono);
-	font-size: 10px;
-	letter-spacing: 0.14em;
-	text-transform: uppercase;
-	padding: 5px 12px;
-	border-radius: 100px;
-}
-
-.hero-badge-label {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: rgba(242, 240, 235, 0.65);
-}
-
-.hero-slide-title {
-	font-family: var(--font-heading);
-	font-weight: 700;
-	font-size: clamp(36px, 6vw, 96px);
-	line-height: 0.92;
-	letter-spacing: -0.03em;
-	margin: 0;
-	color: #f2f0eb;
-	max-width: 18ch;
-}
-
-.hero-cta {
-	display: inline-flex;
-	align-items: center;
-	gap: 10px;
-	background: rgba(242, 240, 235, 0.1);
-	border: 1px solid rgba(242, 240, 235, 0.28);
-	backdrop-filter: blur(10px);
-	color: #f2f0eb;
-	padding: 12px 22px;
-	border-radius: 100px;
-	font-family: var(--font-mono);
-	font-size: 11px;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	text-decoration: none;
-	transition:
-		background 0.2s,
-		border-color 0.2s;
-	align-self: flex-start;
-}
-
-.hero-cta:hover {
-	background: var(--accent);
-	border-color: var(--accent);
-}
-
-/* Right: counter + arrows + dots */
-.hero-right {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	gap: 18px;
-	flex-shrink: 0;
-}
-
-.hero-counter {
-	display: flex;
-	align-items: baseline;
-	gap: 5px;
-	font-family: var(--font-mono);
-	font-size: 11px;
-	color: rgba(242, 240, 235, 0.55);
-	letter-spacing: 0.06em;
-}
-
-.hero-counter-current {
-	font-size: 20px;
-	color: #f2f0eb;
-	line-height: 1;
-}
-
-.hero-nav {
-	display: flex;
-	gap: 8px;
-}
-
-.hero-nav-btn {
-	width: 44px;
-	height: 44px;
-	border-radius: 100px;
-	border: 1px solid rgba(242, 240, 235, 0.22);
-	background: rgba(242, 240, 235, 0.07);
-	backdrop-filter: blur(10px);
-	color: #f2f0eb;
-	font-size: 22px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition:
-		background 0.2s,
-		border-color 0.2s;
-	line-height: 1;
-	padding: 0;
-}
-
-.hero-nav-btn:hover {
-	background: var(--accent);
-	border-color: var(--accent);
-}
-
-.hero-dots {
-	display: flex;
-	gap: 6px;
-	align-items: center;
-}
-
-.hero-dot {
-	width: 6px;
-	height: 6px;
-	border-radius: 100px;
-	border: none;
-	background: rgba(242, 240, 235, 0.3);
-	cursor: pointer;
-	padding: 0;
-	transition:
-		width 0.3s ease,
-		background 0.3s ease;
-}
-
-.hero-dot-active {
-	width: 24px;
-	/* background: #f2f0eb; */
-	background: var(--accent);
-}
-
-/* Progress bar at bottom edge */
-.hero-progress {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 2px;
-	background: rgba(242, 240, 235, 0.12);
 	z-index: 3;
 }
 
-.hero-progress-fill {
-	height: 100%;
-	width: 0%;
-	/* background: #f2f0eb; */
-	background: var(--accent);
+.hero-reel-caption {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 3;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 8px 24px;
+	padding: 24px var(--pad-x);
+	color: #FFFFFF;
+	font-size: 13px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
 }
 
-.hero-progress-fill-running {
-	animation: hero-progress 10s linear forwards;
+.hero-reel-cta {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: clamp(32px, 6vw, 72px);
+	z-index: 3;
+	display: flex;
+	justify-content: center;
 }
 
-@keyframes hero-progress {
-	from {
-		width: 0%;
-	}
-	to {
-		width: 100%;
-	}
+.hero-reel-cta-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 14px;
+	min-height: 48px;
+	padding: 0 24px;
+	border: 1px solid #FFFFFF;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 14px;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	transition: background 0.2s, color 0.2s;
+}
+
+.hero-reel-cta-btn:hover {
+	background: #FFFFFF;
+	color: #000000;
 }
 
 @media (max-width: 768px) {
-	/* Stack video and content vertically */
-	.hero {
-		height: auto;
-		min-height: unset;
-		display: flex;
-		flex-direction: column;
+	.hero-reel {
+		height: 720px;
 	}
 
-	/* Video takes its natural 16:9 height at full width */
-	.hero-video-wrap {
+	.hero-reel-stage {
 		position: relative;
-		width: 100%;
-		aspect-ratio: 16 / 9;
-		overflow: hidden;
-		flex-shrink: 0;
+		height: 720px;
 	}
 
-	/* Soft fade from video into the content panel below */
-	.hero-video-wrap::after {
-		content: "";
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: 35%;
-		background: linear-gradient(to bottom, transparent 0%, #100f0c 100%);
-		pointer-events: none;
-		z-index: 3;
+	.hero-reel-word {
+		font-size: 132px;
+		letter-spacing: -0.06em;
 	}
 
-	/* Content moves below the video in a solid dark panel */
-	.hero-content {
-		position: relative;
-		background: #100f0c;
-		padding: 20px 20px 28px;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 12px;
+	.hero-reel-logo {
+		width: 300px;
 	}
 
-	/* Grid: badge spans full width, title left / CTA right on one row */
-	.hero-left {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		grid-template-rows: auto auto;
-		column-gap: 16px;
-		row-gap: 10px;
-		width: 100%;
+	.hero-reel-caption {
+		flex-wrap: nowrap;
 	}
 
-	.hero-badge {
-		grid-column: 1 / -1;
-	}
-
-	.hero-slide-title {
-		font-size: clamp(24px, 7vw, 40px);
-		max-width: 100%;
-		align-self: center;
-	}
-
-	.hero-cta {
-		align-self: center;
-		white-space: nowrap;
-		padding: 12px 18px;
-	}
-
-	/* Studio title sits inside the video area — shrink padding to fit */
-	.hero-studio {
-		padding-top: 16px;
-	}
-
-	.hero-studio-title {
-		font-size: clamp(12px, 3.5vw, 20px);
-	}
-
-	.hero-counter {
+	/* On mobile, hide the middle caption item; show only tagline + scroll */
+	.hero-reel-caption span:nth-child(2) {
 		display: none;
 	}
 
-	.hero-right {
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
-	}
-
-	.hero-cta {
-		padding: 14px 22px;
-	}
-
-	.hero-progress {
+	.hero-reel-cta {
 		display: none;
 	}
 }

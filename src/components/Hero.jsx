@@ -1,175 +1,161 @@
 import "../styles/hero.css";
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { client } from "../client";
 import imageUrlBuilder from "@sanity/image-url";
-import { Link } from "react-router-dom";
+import TopNav from "./TopNav";
 
 const builder = imageUrlBuilder(client);
-// Interval for auto-advancing slides (in milliseconds)
-// Note: This should match the animation duration in CSS for the progress bar in hero.css
-const INTERVAL = 10000;
+
+function clamp(v, min = 0, max = 1) {
+	return Math.min(max, Math.max(min, v));
+}
 
 export default function Hero() {
-	const [works, setWorks] = useState([]);
-	const [heroTitle, setHeroTitle] = useState("");
-	const [current, setCurrent] = useState(0);
-	const [timerKey, setTimerKey] = useState(0);
-	const videoRefs = useRef({});
+	const sectionRef = useRef(null);
+	const videoRef = useRef(null);
+	const rafRef = useRef(null);
+	const [reelVideoUrl, setReelVideoUrl] = useState("/hero-reel.mp4");
+	const [reelLink, setReelLink] = useState(null);
+	const [logo, setLogo] = useState(null);
+	const [scrollVals, setScrollVals] = useState(() => getScrollVals(0, false));
+	const prefersReduced = useRef(
+		typeof window !== "undefined" &&
+		window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+	);
 
 	useEffect(() => {
-		Promise.all([
-			client.fetch(
-				`*[_type == "work" && featured == true] | order(orderRank asc) { _id, projectId, title, client, category, thumbnail, video { asset->{url} } }`,
-			),
-			client.fetch(`*[_type == "hero"][0]{ title }`),
-		])
-			.then(([workData, heroData]) => {
-				setWorks(workData);
-				if (heroData?.title) setHeroTitle(heroData.title);
+		client
+			.fetch(
+				`*[_type == "hero"][0]{ reelVideo{ asset->{url} }, reelLink, footerLogo{..., asset->{_id, metadata{dimensions}}} }`,
+			)
+			.then((data) => {
+				if (data?.reelVideo?.asset?.url) setReelVideoUrl(data.reelVideo.asset.url);
+				if (data?.reelLink) setReelLink(data.reelLink);
+				if (data?.footerLogo) setLogo(data.footerLogo);
 			})
 			.catch(() => {});
 	}, []);
 
-	// Play active video, pause all others
+	const logoUrl = logo ? builder.image(logo).height(1080).auto("format").url() : null;
+	const logoDimensions = logo?.asset?.metadata?.dimensions;
+	const logoAspectRatio = logoDimensions
+		? logoDimensions.width / logoDimensions.height
+		: 3;
+
 	useEffect(() => {
-		Object.entries(videoRefs.current).forEach(([idx, video]) => {
-			if (!video) return;
-			if (Number(idx) === current) {
-				video.currentTime = 0;
-				video.play().catch(() => {});
-			} else {
-				video.pause();
+		if (prefersReduced.current) {
+			setScrollVals(getScrollVals(1, true));
+			return;
+		}
+
+		const onScroll = () => {
+			if (rafRef.current) return;
+			rafRef.current = requestAnimationFrame(() => {
+				rafRef.current = null;
+				const el = sectionRef.current;
+				if (!el) return;
+				const stage = window.innerHeight;
+				const range = el.getBoundingClientRect().height - stage;
+				const p = range > 0 ? clamp(-el.getBoundingClientRect().top / range) : 0;
+				setScrollVals(getScrollVals(p, false));
+			});
+		};
+
+		window.addEventListener("scroll", onScroll, { passive: true });
+		onScroll();
+		return () => {
+			window.removeEventListener("scroll", onScroll);
+			if (rafRef.current) {
+				cancelAnimationFrame(rafRef.current);
+				rafRef.current = null;
 			}
-		});
-	}, [current, works.length]);
-
-	// Auto-advance — restarts whenever timerKey changes (manual navigation)
-	useEffect(() => {
-		if (works.length < 2) return;
-		const id = setInterval(
-			() => setCurrent((c) => (c + 1) % works.length),
-			INTERVAL,
-		);
-		return () => clearInterval(id);
-	}, [works.length, timerKey]);
-
-	const go = (index) => {
-		setCurrent((index + works.length) % works.length);
-		setTimerKey((k) => k + 1);
-	};
-
-	const slide = works[current];
+		};
+	}, []);
 
 	return (
-		<section className="hero">
-			{/* Video wrap — full-bleed on desktop, 16:9 on mobile */}
-			<div className="hero-video-wrap">
-				{works.map((w, i) => {
-					const thumbUrl = w.thumbnail
-						? builder
-								.image(w.thumbnail)
-								.width(2400)
-								.height(1350)
-								.fit("crop")
-								.auto("format")
-								.url()
-						: null;
-					return (
-						<div
-							key={w._id}
-							className={`hero-slide${i === current ? " hero-slide-active" : ""}`}
+		<section className="hero-reel" ref={sectionRef} aria-label="Showreel">
+			<div className="hero-reel-stage">
+				{reelVideoUrl && (
+					<video
+						ref={videoRef}
+						className="hero-reel-video"
+						src={reelVideoUrl}
+						autoPlay
+						muted
+						loop
+						playsInline
+						style={{ transform: `scale(${scrollVals.reelScale})` }}
+					/>
+				)}
+
+				<div
+					className="hero-reel-mask"
+					aria-hidden="true"
+					style={{ opacity: scrollVals.maskOpacity }}
+				>
+					{logoUrl ? (
+						<span
+							className="hero-reel-logo"
+							style={{
+								WebkitMaskImage: `url(${logoUrl})`,
+								maskImage: `url(${logoUrl})`,
+								aspectRatio: logoAspectRatio,
+								transform: `scale(${scrollVals.textScale})`,
+							}}
+						/>
+					) : (
+						<span
+							className="hero-reel-word"
+							style={{ transform: `scale(${scrollVals.textScale})` }}
 						>
-							{w.video?.asset?.url ? (
-								<video
-									ref={(el) => {
-										videoRefs.current[i] = el;
-									}}
-									src={w.video.asset.url}
-									className="hero-slide-video"
-									muted
-									playsInline
-									loop
-								/>
-							) : thumbUrl ? (
-								<div
-									className="hero-slide-bg"
-									style={{ backgroundImage: `url(${thumbUrl})` }}
-								/>
-							) : null}
-						</div>
-					);
-				})}
-
-				<div className="hero-gradient" />
-
-				{/* Persistent studio title */}
-				<div className="hero-studio">
-					<span className="hero-studio-title">{heroTitle}</span>
-				</div>
-			</div>
-
-			{/* Per-slide content */}
-			<div className="hero-content">
-				<div className="hero-left" key={current}>
-					{slide && (
-						<>
-							<div className="hero-badge">
-								<span className="hero-badge-pill">
-									{slide.category || "Work"}
-								</span>
-								{slide.client && (
-									<span className="hero-badge-label">{slide.client}</span>
-								)}
-							</div>
-							<p className="hero-slide-title">{slide.title}</p>
-							<Link to={`/work/${slide.projectId}`} className="hero-cta">
-								View Project ↗︎
-							</Link>
-						</>
+							HYODO
+						</span>
 					)}
 				</div>
 
-				<div className="hero-right">
-					<div className="hero-counter">
-						<span className="hero-counter-current">
-							{String(current + 1).padStart(2, "0")}
-						</span>
-						<span>&nbsp;/&nbsp;</span>
-						<span>{String(works.length).padStart(2, "0")}</span>
-					</div>
-					<div className="hero-nav">
-						<button
-							className="hero-nav-btn"
-							onClick={() => go(current - 1)}
-							aria-label="Previous"
-						>
-							‹
-						</button>
-						<button
-							className="hero-nav-btn"
-							onClick={() => go(current + 1)}
-							aria-label="Next"
-						>
-							›
-						</button>
-					</div>
-					<div className="hero-dots">
-						{works.map((_, i) => (
-							<button
-								key={i}
-								className={`hero-dot${i === current ? " hero-dot-active" : ""}`}
-								onClick={() => go(i)}
-								aria-label={`Go to slide ${i + 1}`}
-							/>
-						))}
-					</div>
-				</div>
-			</div>
+				<TopNav transparent />
 
-			{/* Progress bar */}
-			<div className="hero-progress">
-				<div key={current} className="hero-progress-fill hero-progress-fill-running" />
+				<div className="hero-reel-caption" style={{ opacity: scrollVals.captionOpacity }}>
+					<span>Driven by story. Crafted to last.</span>
+					<span>Film · Commercials · Music Videos</span>
+					<span>Scroll ↓</span>
+				</div>
+
+				{reelLink && (
+					<div
+						className="hero-reel-cta"
+						style={{
+							opacity: scrollVals.ctaOpacity,
+							pointerEvents: scrollVals.ctaOpacity > 0.5 ? "auto" : "none",
+						}}
+					>
+						<a
+							href={reelLink}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hero-reel-cta-btn"
+						>
+							<svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+								<path d="M1 1 L11 7 L1 13 Z" />
+							</svg>
+							Watch the full reel
+						</a>
+					</div>
+				)}
 			</div>
 		</section>
 	);
+}
+
+function getScrollVals(p, reduced) {
+	if (reduced) {
+		return { reelScale: 1, maskOpacity: 0, textScale: 1, captionOpacity: 0, ctaOpacity: 1 };
+	}
+	return {
+		reelScale: 1.12 - 0.12 * p,
+		maskOpacity: 1 - clamp((p - 0.4) / 0.4),
+		textScale: 1 + Math.pow(p, 1.6) * 2.2,
+		captionOpacity: clamp(1 - p * 3),
+		ctaOpacity: clamp((p - 0.75) / 0.2),
+	};
 }

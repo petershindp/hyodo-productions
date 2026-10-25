@@ -18,40 +18,44 @@ function getWatchUrl(embedUrl) {
 	return embedUrl;
 }
 
-function getPlatform(url) {
-	if (!url) return null;
-	if (url.includes("vimeo")) return "Vimeo";
-	if (url.includes("youtube") || url.includes("youtu.be")) return "YouTube";
-	return null;
-}
-
 export default function ProjectDetails() {
 	const { projectId } = useParams();
 	const [project, setProject] = useState(null);
+	const [nextProject, setNextProject] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (!projectId) return;
-
 		setLoading(true);
-		client
-			.fetch(
+
+		Promise.all([
+			client.fetch(
 				`*[_type == "work" && projectId == $projectId][0]{
-          _id,
-          title,
-          client,
-          category,
-          publishedAt,
-          description,
-          videoLink,
-          aspectRatio,
-          thumbnail,
-          stills[]
-        }`,
+					_id,
+					title,
+					client,
+					category,
+					publishedAt,
+					description,
+					videoLink,
+					aspectRatio,
+					thumbnail,
+					stills[]
+				}`,
 				{ projectId },
-			)
-			.then((data) => {
+			),
+			client.fetch(
+				`*[_type == "work"] | order(orderRank asc) { projectId, title, category, client, thumbnail }`,
+			),
+		])
+			.then(([data, allWork]) => {
 				setProject(data);
+				if (allWork && allWork.length > 1) {
+					const idx = allWork.findIndex((p) => p.projectId === projectId);
+					if (idx !== -1) {
+						setNextProject(allWork[(idx + 1) % allWork.length]);
+					}
+				}
 				setLoading(false);
 			})
 			.catch(() => setLoading(false));
@@ -72,14 +76,20 @@ export default function ProjectDetails() {
 			: undefined,
 	});
 
-	if (loading) return <div className="project-loading">Loading…</div>;
+	if (loading) return <div className="pd-loading">Loading…</div>;
 	if (!project)
 		return (
-			<div className="project-not-found">
+			<div className="pd-not-found">
 				<p>Project not found</p>
-				<Link to="/work">← Back to work</Link>
+				<Link to="/work">← All work</Link>
 			</div>
 		);
+
+	const watchUrl = project.videoLink ? getWatchUrl(project.videoLink) : null;
+
+	const thumbUrl = project.thumbnail
+		? builder.image(project.thumbnail).width(2400).auto("format").url()
+		: null;
 
 	const stillUrls = project.stills
 		? project.stills.map((still) =>
@@ -87,74 +97,121 @@ export default function ProjectDetails() {
 			)
 		: [];
 
+	const nextThumbUrl =
+		nextProject?.thumbnail
+			? builder.image(nextProject.thumbnail).width(1600).auto("format").url()
+			: null;
+
 	return (
-		<div>
+		<div className="pd-root">
 			<TopNav />
-			<div className="project-details">
-				<Link to="/work" className="back-link">
-					← Back
+
+			{/* Title section */}
+			<section className="pd-header">
+				<Link to="/work" className="pd-back">
+					← All work
 				</Link>
-				<div className="project-info">
-					<div className="title-client">
-						<h1 className="project-title">{project.title}</h1>
-						{project.client && (
-							<span className="project-client">{project.client}</span>
-						)}
-					</div>
-					<div className="project-meta-right">
-						{project.category && (
-							<span className="project-category">{project.category}</span>
-						)}
-						{project.publishedAt && (
-							<span className="project-year">
-								{new Date(project.publishedAt).getFullYear()}
-							</span>
-						)}
-					</div>
+				<div className="pd-title-row">
+					<h1 className="pd-title">{project.title}</h1>
+					<p className="pd-meta">
+						<span className="pd-meta-dot" aria-hidden="true" />
+						<span>
+							<span className="pd-meta-category">{project.category}</span>
+							{project.client ? ` / ${project.client}` : ""}
+						</span>
+					</p>
 				</div>
+			</section>
 
+			{/* Full-width thumbnail with play button */}
+			{thumbUrl && (
+				<div className="pd-thumb-wrap">
+					{watchUrl ? (
+						<a
+							href={watchUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="pd-thumb-link"
+							aria-label={`Watch ${project.title}`}
+						>
+							<img
+								src={thumbUrl}
+								alt={`${project.title} thumbnail`}
+								className="pd-thumb-img"
+							/>
+							<div className="pd-play-ring" aria-hidden="true">
+								<svg width="24" height="28" viewBox="0 0 24 28" fill="none" aria-hidden="true">
+									<path d="M2 2 L22 14 L2 26 Z" fill="#FFFFFF" />
+								</svg>
+							</div>
+						</a>
+					) : (
+						<div className="pd-thumb-link">
+							<img
+								src={thumbUrl}
+								alt={`${project.title} thumbnail`}
+								className="pd-thumb-img"
+							/>
+						</div>
+					)}
+				</div>
+			)}
+
+			{/* Description */}
+			<section
+				className={`pd-desc-section${project.description ? "" : " pd-desc-section--empty"}`}
+			>
 				{project.description && (
-					<p className="project-description">{project.description}</p>
+					<p className="pd-description">{project.description}</p>
 				)}
+			</section>
 
-				{project.videoLink &&
-					(() => {
-						const watchUrl = getWatchUrl(project.videoLink);
-						const platform = getPlatform(project.videoLink);
-						return (
-							<a
-								href={watchUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="project-video-link"
-							>
-								<div className="project-video-link-left">
-									<span className="project-video-link-eyebrow">
-										{platform ? `[ ${platform} ]` : "[ Watch ]"}
-									</span>
-									<span className="project-video-link-label">
-										Watch full film
-									</span>
-								</div>
-								<span className="project-video-link-arrow">{'↗︎'}</span>
-							</a>
-						);
-					})()}
-
-				{stillUrls.length > 0 && (
-					<div className="project-stills">
+			{/* Stills grid */}
+			{stillUrls.length > 0 && (
+				<section className="pd-stills-section">
+					<div className="pd-stills">
 						{stillUrls.map((url, index) => (
 							<img
 								key={index}
 								src={url}
 								alt={`${project.title} still ${index + 1}`}
-								className="project-still"
-								style={{ aspectRatio: project.aspectRatio || "16/9" }}
+								className="pd-still"
+								loading="lazy"
 							/>
 						))}
 					</div>
-				)}
-			</div>
+				</section>
+			)}
+
+			{/* Next project banner */}
+			{nextProject && (
+				<Link
+					to={`/work/${nextProject.projectId}`}
+					className="pd-next"
+					aria-label={`Next project: ${nextProject.title}`}
+				>
+					{nextThumbUrl && (
+						<img
+							src={nextThumbUrl}
+							alt=""
+							className="pd-next-bg"
+							aria-hidden="true"
+						/>
+					)}
+					<div className="pd-next-content">
+						<span className="pd-next-eyebrow">Next project</span>
+						<span className="pd-next-title">
+							{nextProject.title} {'↗︎'}
+						</span>
+						<span className="pd-next-meta">
+							<span className="pd-next-meta-dot" aria-hidden="true" />
+							<span className="pd-next-meta-category">{nextProject.category}</span>
+							{nextProject.client ? ` / ${nextProject.client}` : ""}
+						</span>
+					</div>
+				</Link>
+			)}
+
 			<Footer />
 		</div>
 	);

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-sitemap.js && vite build",
+    "generate:hero-reel": "node scripts/generate-hero-reel.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

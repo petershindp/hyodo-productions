@@ -4,15 +4,6 @@ import Footer from "../components/Footer";
 import "../styles/contact.css";
 import { useSEO } from "../hooks/useSEO";
 
-const CONTACTS = [
-	{
-		label: "New business",
-		value: "hello@hyodoproductions.com",
-		href: "mailto:hello@hyodoproductions.com",
-	},
-	{ label: "Studio", value: "Los Angeles, CA", href: null },
-];
-
 const ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT;
 
 export default function ContactPage() {
@@ -58,11 +49,13 @@ export default function ContactPage() {
 	};
 
 	return (
-		<div>
+		<div className="contact-root">
 			<TopNav />
+
 			<div className="contact-page">
-				<div>
-					<span className="contact-eyebrow">[ Contact ]</span>
+				{/* ── Left column ── */}
+				<div className="contact-left">
+					<p className="contact-eyebrow">Contact</p>
 					<h1 className="contact-title">
 						Let&rsquo;s make
 						<br />
@@ -70,31 +63,61 @@ export default function ContactPage() {
 						<br />
 						<span className="contact-accent">lasting.</span>
 					</h1>
-					<div className="contact-info">
-						{CONTACTS.map((c) => (
-							<div key={c.label}>
-								<div className="contact-info-label">{c.label}</div>
-								{c.href ? (
-									<a href={c.href} className="contact-info-value">
-										{c.value}
-									</a>
-								) : (
-									<span className="contact-info-value">{c.value}</span>
-								)}
-							</div>
-						))}
-					</div>
+
+					<dl className="contact-info">
+						<div className="contact-info-entry">
+							<dt className="contact-info-label">New business</dt>
+							<dd className="contact-info-value">
+								<a href="mailto:hello@hyodoproductions.com">
+									hello@hyodoproductions.com
+								</a>
+							</dd>
+						</div>
+						<div className="contact-info-entry">
+							<dt className="contact-info-label">Studio</dt>
+							<dd className="contact-info-value">Los Angeles, CA</dd>
+						</div>
+						<div className="contact-info-entry">
+							<dt className="contact-info-label">Follow</dt>
+							<dd className="contact-info-value">
+								<a
+									href="https://www.instagram.com/hyodoproductions/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									@hyodoproductions
+								</a>
+							</dd>
+						</div>
+					</dl>
 				</div>
 
-				<form className="contact-form" onSubmit={handleSubmit}>
-					<div className="contact-form-label">Start a project</div>
+				{/* ── Right column / form ── */}
+				<div className="contact-right">
+					<h2 className="contact-form-heading" id="start-title">
+						Start a project
+					</h2>
 
 					{status === "success" ? (
-						<div className="contact-form-success">
-							Thanks — we&rsquo;ll be in touch soon.
+						<div className="contact-success">
+							<h2 className="contact-success-title">
+								Thank you.
+								<br />
+								<span className="contact-success-accent">We'll be in touch.</span>
+							</h2>
+							<button
+								type="button"
+								className="contact-send-another"
+								onClick={() => {
+									setFields({ name: "", email: "", company: "", project: "" });
+									setStatus("idle");
+								}}
+							>
+								Send another
+							</button>
 						</div>
 					) : (
-						<>
+						<form className="contact-form" onSubmit={handleSubmit} aria-labelledby="start-title">
 							<label className="contact-field">
 								<span className="contact-field-label">Name</span>
 								<input
@@ -149,12 +172,14 @@ export default function ContactPage() {
 								className="contact-submit"
 								disabled={status === "sending"}
 							>
-								{status === "sending" ? "Sending…" : "Send inquiry ↗︎"}
+								<span>{status === "sending" ? "Sending…" : "Send inquiry"}</span>
+								<span aria-hidden="true">{'↗︎'}</span>
 							</button>
-						</>
+						</form>
 					)}
-				</form>
+				</div>
 			</div>
+
 			<Footer />
 		</div>
 	);

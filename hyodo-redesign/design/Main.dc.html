@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyodo Productions — Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;family=Noto+Sans+KR:wght@500&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0A0A0A}a:hover{color:#6E6E6E}
+</style>
+</helmet>
+<div style="width: 100%; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', system-ui, sans-serif; box-sizing: border-box">
+
+  <section id="hyodo-hero" aria-label="Showreel" style="position: relative; height: calc(min(100vh, 900px) * 2.6); background: #000000">
+    <div style="position: sticky; top: 0; height: min(100vh, 900px); overflow: hidden; background: #000000">
+      <div style="{{reelStyle}}">
+        <sc-for list="{{reel}}" as="r" hint-placeholder-count="1">
+          <img src="{{r.src}}" alt="" style="{{r.style}}">
+        </sc-for>
+      </div>
+      <div aria-hidden="true" style="{{maskStyle}}">
+        <span style="{{wordStyle}}">HYODO</span>
+      </div>
+
+      <header style="position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px clamp(16px, 3vw, 40px); color: #FFFFFF">
+        <a href="#hyodo-hero" style="text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.24em; color: #FFFFFF">HYODO</a>
+        <nav aria-label="Primary" style="display: flex; gap: clamp(20px, 3vw, 40px); font-size: 14px">
+          <a href="#work" style="text-decoration: none; padding: 12px 0; color: #FFFFFF">Work</a>
+          <a href="About.dc.html" style="text-decoration: none; padding: 12px 0; color: #FFFFFF">About</a>
+          <a href="Contact.dc.html" style="text-decoration: none; padding: 12px 0; color: #FFFFFF">Contact</a>
+        </nav>
+      </header>
+
+      <div style="{{captionStyle}}">
+        <span>Led by story. Crafted to last.</span>
+        <span>Film · Commercials · Music Videos</span>
+        <span>Scroll ↓</span>
+      </div>
+
+      <div style="{{ctaStyle}}">
+        <a href="#work" style="display: inline-flex; align-items: center; gap: 14px; min-height: 48px; padding: 0 24px; border: 1px solid #FFFFFF; color: #FFFFFF; text-decoration: none; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase">
+          <svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="#FFFFFF" stroke-width="1.5" aria-hidden="true"><path d="M1 1 L11 7 L1 13 Z"></path></svg>
+          Watch the full reel
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" style="max-width: 1600px; margin: 0 auto; box-sizing: border-box; padding-top: clamp(64px, 8vw, 120px)">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid #0A0A0A; margin: 0 clamp(16px, 3vw, 40px)">
+      <h2 style="margin: 0; font-size: clamp(44px, 6vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 0.9">Selected work</h2>
+      <div role="group" aria-label="Filter by category" style="display: flex; flex-wrap: wrap; gap: 6px">
+        <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+          <button type="button" onClick="{{ f.pick }}" style="{{f.style}}">{{f.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: clamp(56px, 7vw, 104px); padding: clamp(32px, 4vw, 56px) 0 clamp(96px, 10vw, 160px)">
+      <sc-for list="{{projects}}" as="p" hint-placeholder-count="3">
+        <article style="display: flex; flex-direction: column; gap: 20px">
+          <a href="Project.dc.html" aria-label="Open {{p.title}}" style="{{p.mediaStyle}}">
+            <img src="{{p.src}}" alt="Still from {{p.title}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+          </a>
+          <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 40px; padding: 0 clamp(16px, 3vw, 40px)">
+            <div style="display: flex; flex-direction: column; gap: 10px; min-width: 0">
+              <h3 style="margin: 0; font-size: clamp(32px, 4.2vw, 64px); font-weight: 600; letter-spacing: -0.035em; line-height: 0.95">{{p.title}}</h3>
+              <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E"><span aria-hidden="true" style="display: inline-block; width: 8px; height: 8px; background: #8A1414"></span><span><span style="color: #8A1414">{{p.cat}}</span> / {{p.name}}</span></p>
+            </div>
+            <span style="font-size: 13px; font-variant-numeric: tabular-nums; letter-spacing: 0.08em; color: #6E6E6E">{{p.counter}}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer id="contact" style="background: #FFFFFF; color: #0A0A0A">
+    <div style="max-width: 1600px; margin: 0 auto; padding: clamp(56px, 6vw, 88px) clamp(16px, 3vw, 40px) 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px); border-top: 1px solid #0A0A0A">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 40px 64px">
+        <a href="#hyodo-hero" aria-label="Hyodo Productions — back to top" style="text-decoration: none; font-weight: 900; font-size: clamp(64px, 8vw, 128px); letter-spacing: -0.06em; line-height: 0.8">hyodo</a>
+        <div style="display: flex; flex-wrap: wrap; gap: 32px 80px; font-size: 16px">
+          <nav aria-label="Footer menu" style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 6px">Menu</span>
+            <a href="#work" style="text-decoration: none; padding: 10px 0">Work</a>
+            <a href="About.dc.html" style="text-decoration: none; padding: 10px 0">About</a>
+            <a href="Contact.dc.html" style="text-decoration: none; padding: 10px 0">Contact</a>
+          </nav>
+          <div style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 6px">Connect</span>
+            <a href="mailto:hello@hyodoproductions.com" style="text-decoration: none; padding: 10px 0">hello@hyodoproductions.com</a>
+            <a href="https://www.instagram.com/hyodoproductions/" style="text-decoration: none; padding: 10px 0">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid #E2E2E2; padding-top: 24px; font-size: 13px; color: #6E6E6E">
+        <span>© 2026 Hyodo Productions — Led by story. Crafted to last.</span>
+        <span>Los Angeles / Worldwide</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tileRatio":{"editor":"enum","options":["2.39 / 1","16 / 9","2 / 1"],"default":"2.39 / 1"},"reelSpeed":{"editor":"range","min":600,"max":4000,"step":100,"unit":"ms","default":1400},"previewScroll":{"editor":"range","min":0,"max":1,"step":0.05,"default":0},"$preview":{"width":1440,"height":7100}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    const speed = this.props.reelSpeed ?? 1400;
+    this._tick = setInterval(() => {
+      this.setState({ frame: ((this.state && this.state.frame) || 0) + 1 });
+    }, speed);
+    this._onScroll = () => {
+      const el = document.getElementById('hyodo-hero');
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const stick = Math.min(window.innerHeight, 900);
+      const range = r.height - stick;
+      const p = range > 0 ? Math.min(1, Math.max(0, -r.top / range)) : 0;
+      const prev = (this.state && this.state.p) || 0;
+      if (Math.abs(p - prev) > 0.002) this.setState({ p: p });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() {
+    clearInterval(this._tick);
+    window.removeEventListener('scroll', this._onScroll);
+  }
+  renderVals() {
+    const ratio = this.props.tileRatio ?? '2.39 / 1';
+    const scrolled = (this.state && this.state.p) || 0;
+    const p = Math.max(scrolled, this.props.previewScroll ?? 0);
+    const frame = (this.state && this.state.frame) || 0;
+    const clamp = (v) => Math.min(1, Math.max(0, v));
+
+    const all = [
+      { title: 'Movement in Mind', name: 'Grammicci', cat: 'Commercial', src: '/_blob/b7bdb04ef1773b1e4f6192090e9d8dae' },
+      { title: 'Telekinesis', name: 'Andy Chung', cat: 'Music Video', src: '/_blob/d9fbb501afbbc78e92123e8a3b2d9ba8' },
+      { title: 'AI Responsibly', name: 'Optro', cat: 'Commercial', src: '/_blob/05282a25c3c38d7aa34c8bf4ac88a2bd' },
+      { title: 'Notes on the Divide', name: 'Phinehas Yoon', cat: 'Short Film', src: '/_blob/ca95fa936c2221852e02771d09f2bb6c' },
+      { title: 'Life Support', name: 'Dr. Andy Chu', cat: 'Short Film', src: '/_blob/a985cf569809b57646ee6d97fbe5dfb3' }
+    ];
+
+    const cur = frame % all.length;
+    const reel = all.map((x, i) => ({
+      src: x.src,
+      style: 'position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 600ms ease; opacity: ' + (i === cur ? 1 : 0)
+    }));
+    const textScale = 1 + Math.pow(p, 1.6) * 2.2;
+    const maskOpacity = 1 - clamp((p - 0.4) / 0.4);
+    const reelStyle = 'position: absolute; inset: 0; transform: scale(' + (1.12 - p * 0.12).toFixed(3) + ')';
+    const maskStyle = 'position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: #000000; mix-blend-mode: multiply; opacity: ' + maskOpacity.toFixed(3);
+    const wordStyle = 'display: block; color: #FFFFFF; font-family: \'Inter Tight\', sans-serif; font-weight: 900; font-size: clamp(110px, 25vw, 440px); letter-spacing: -0.055em; line-height: 0.8; white-space: nowrap; transform: scale(' + textScale.toFixed(3) + ')';
+    const captionStyle = 'position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 24px clamp(16px, 3vw, 40px); color: #FFFFFF; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: ' + clamp(1 - p * 3).toFixed(3);
+    const ctaOpacity = clamp((p - 0.75) / 0.2);
+    const ctaStyle = 'position: absolute; left: 0; right: 0; bottom: clamp(32px, 6vw, 72px); z-index: 3; display: flex; justify-content: center; opacity: ' + ctaOpacity.toFixed(3) + '; pointer-events: ' + (ctaOpacity > 0.5 ? 'auto' : 'none');
+
+    const filter = (this.state && this.state.filter) || 'All';
+    const list = filter === 'All' ? all : all.filter((x) => x.cat === filter);
+    const pad = (n) => String(n).padStart(2, '0');
+    const projects = list.map((x, i) => ({
+      ...x,
+      counter: pad(i + 1) + ' / ' + pad(list.length),
+      mediaStyle: 'position: relative; display: block; width: 100%; aspect-ratio: ' + ratio + '; overflow: hidden; background: #0A0A0A'
+    }));
+    const base = 'min-height: 44px; padding: 0 18px; border-radius: 0; font: inherit; font-size: 14px; cursor: pointer; ';
+    const filters = ['All', 'Commercial', 'Music Video', 'Short Film'].map((f) => ({
+      label: f,
+      pick: () => this.setState({ filter: f }),
+      style: base + (f === filter
+        ? 'background: #0A0A0A; color: #FFFFFF; border: 1px solid #0A0A0A'
+        : 'background: #FFFFFF; color: #0A0A0A; border: 1px solid #D0D0D0')
+    }));
+
+    return { reel, reelStyle, maskStyle, wordStyle, captionStyle, ctaStyle, projects, filters };
+  }
+}
+</script>
+</body>
+</html>
