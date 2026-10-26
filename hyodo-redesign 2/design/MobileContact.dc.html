@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyodo — Mobile contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0A0A0A}a:hover{color:#6E6E6E}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 1900px; display: flex; flex-direction: column; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', system-ui, sans-serif; overflow: hidden">
+
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 12px 8px 12px 16px">
+    <a href="MobileHome.dc.html" style="text-decoration: none; font-weight: 600; font-size: 13px; letter-spacing: 0.24em; padding: 12px 0">HYODO</a>
+    <a href="MobileMenu.dc.html" aria-label="Open menu" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px">
+      <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><path d="M0 1 H22 M0 11 H22"></path></svg>
+    </a>
+  </header>
+
+  <section style="padding: 40px 16px 48px; display: flex; flex-direction: column; gap: 36px">
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <p style="margin: 0; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Contact</p>
+      <h1 style="margin: 0; font-size: 62px; font-weight: 900; letter-spacing: -0.065em; line-height: 0.88">Let's make<br>something<br><span style="color: #8A1414">lasting.</span></h1>
+    </div>
+    <dl style="margin: 0; display: flex; flex-direction: column; gap: 20px; border-top: 1px solid #0A0A0A; padding-top: 20px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <dt style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">New business</dt>
+        <dd style="margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -0.02em"><a href="mailto:hello@hyodoproductions.com" style="display: inline-block; padding: 8px 0; text-underline-offset: 5px">hello@hyodoproductions.com</a></dd>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <dt style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Studio</dt>
+        <dd style="margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -0.02em">Los Angeles, CA</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="m-start-title" style="padding: 0 16px 64px; display: flex; flex-direction: column; gap: 24px">
+    <h2 id="m-start-title" style="margin: 0; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; border-bottom: 1px solid #0A0A0A; padding-bottom: 14px">Start a project</h2>
+    <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+      <form style="display: flex; flex-direction: column; gap: 22px">
+        <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Name
+          <input type="text" placeholder="Your name" autocomplete="name" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 17px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Email
+          <input type="email" placeholder="you@studio.com" autocomplete="email" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 17px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Company
+          <input type="text" placeholder="Optional" autocomplete="organization" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 17px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Project
+          <textarea rows="4" placeholder="Tell us about the story you want to tell…" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 17px; letter-spacing: 0; text-transform: none; color: #0A0A0A; resize: vertical"></textarea>
+        </label>
+        <button type="button" onClick="{{ send }}" style="display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: 0 20px; border: 0; border-radius: 0; background: #0A0A0A; color: #FFFFFF; font: inherit; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">Send inquiry <span aria-hidden="true">↗</span></button>
+      </form>
+    </sc-if>
+    <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="display: flex; flex-direction: column; gap: 14px">
+        <p style="margin: 0; font-size: 38px; font-weight: 900; letter-spacing: -0.055em; line-height: 0.95">Thank you.<br><span style="color: #8A1414">We'll be in touch.</span></p>
+        <button type="button" onClick="{{ reset }}" style="align-self: flex-start; min-height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 5px; color: #0A0A0A; cursor: pointer">Send another</button>
+      </div>
+    </sc-if>
+  </section>
+
+  <footer style="margin-top: auto; background: #FFFFFF; color: #0A0A0A">
+    <div style="padding: 48px 16px 24px; display: flex; flex-direction: column; gap: 40px; border-top: 1px solid #0A0A0A">
+      <a href="MobileHome.dc.html" aria-label="Hyodo Productions — home" style="text-decoration: none; font-weight: 900; font-size: 88px; letter-spacing: -0.065em; line-height: 0.8">hyodo</a>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; font-size: 15px">
+        <nav aria-label="Footer menu" style="display: flex; flex-direction: column">
+          <span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 4px">Menu</span>
+          <a href="MobileHome.dc.html" style="text-decoration: none; padding: 11px 0">Work</a>
+          <a href="MobileAbout.dc.html" style="text-decoration: none; padding: 11px 0">About</a>
+          <a href="MobileContact.dc.html" style="text-decoration: none; padding: 11px 0">Contact</a>
+        </nav>
+        <div style="display: flex; flex-direction: column; min-width: 0">
+          <span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 4px">Connect</span>
+          <a href="mailto:hello@hyodoproductions.com" style="text-decoration: none; padding: 11px 0; overflow-wrap: anywhere">hello@hyodoproductions.com</a>
+          <a href="https://www.instagram.com/hyodoproductions/" style="text-decoration: none; padding: 11px 0">Instagram</a>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #E2E2E2; padding-top: 20px; font-size: 12px; color: #6E6E6E">
+        <span>© 2026 Hyodo Productions — Led by story. Crafted to last.</span>
+        <span>Los Angeles / Worldwide</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sent = !!(this.state && this.state.sent);
+    return {
+      sent: sent,
+      notSent: !sent,
+      send: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>효도 — type options</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;family=Gaegu:wght@300&amp;family=Hi+Melody&amp;family=Gowun+Batang&amp;family=Nanum+Pen+Script&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+</style>
+</helmet>
+<div style="width: 1440px; height: 640px; box-sizing: border-box; padding: 56px; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', sans-serif; display: flex; flex-direction: column; gap: 36px">
+  <h1 style="margin: 0; font-size: 32px; font-weight: 600; letter-spacing: -0.03em">효도 — clean handwritten options</h1>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+    <sc-for list="{{options}}" as="o" hint-placeholder-count="4">
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 18px; border-top: 1px solid #0A0A0A; padding-top: 20px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+          <span style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">{{o.num}}</span>
+          <span style="{{o.tagStyle}}">{{o.tag}}</span>
+        </div>
+        <p lang="ko" style="{{o.style}}">효도</p>
+        <figcaption style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">{{o.name}}</span>
+          <span style="font-size: 15px; line-height: 1.45; color: #444444">{{o.note}}</span>
+        </figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":640}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = 'margin: 0; height: 170px; display: flex; align-items: center; line-height: 1; color: #8A1414; ';
+    const tagOn = 'font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A1414';
+    const tagOff = 'font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E';
+    return {
+      options: [
+        { num: '01', tag: 'Now on About', tagStyle: tagOn, name: 'Gaegu Light', note: 'Fine-pen handwriting with even, steady strokes. Personal like Nanum Pen, but tidier and lighter.', style: base + "font-family: 'Gaegu', cursive; font-weight: 300; font-size: 160px" },
+        { num: '02', tag: 'Option', tagStyle: tagOff, name: 'Hi Melody', note: 'Smooth felt-tip handwriting. Clean, rounded shapes with a relaxed, human rhythm.', style: base + "font-family: 'Hi Melody', cursive; font-size: 165px" },
+        { num: '03', tag: 'Option', tagStyle: tagOff, name: 'Gowun Batang', note: 'A serif drawn with a calligrapher’s hand. The cleanest of the four, halfway between handwriting and type.', style: base + "font-family: 'Gowun Batang', serif; font-size: 140px; letter-spacing: -0.03em" },
+        { num: '04', tag: 'Previous', tagStyle: tagOff, name: 'Nanum Pen Script', note: 'The pen script you liked, for comparison.', style: base + "font-family: 'Nanum Pen Script', cursive; font-size: 190px" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

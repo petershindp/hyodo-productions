@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyodo Productions — About</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;family=Song+Myung&amp;family=Hahmlet:wght@300;500&amp;family=Nanum+Myeongjo:wght@800&amp;family=Gothic+A1:wght@200&amp;family=IBM+Plex+Sans+KR:wght@300&amp;family=Nanum+Brush+Script&amp;family=East+Sea+Dokdo&amp;family=Nanum+Pen+Script&amp;family=Gaegu:wght@300&amp;family=Hi+Melody&amp;family=Gowun+Batang&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0A0A0A}a:hover{color:#6E6E6E}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', system-ui, sans-serif; box-sizing: border-box; overflow-x: hidden">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px clamp(16px, 3vw, 40px); max-width: 1600px; margin: 0 auto; box-sizing: border-box">
+    <a href="Main.dc.html" style="text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.24em">HYODO</a>
+    <nav aria-label="Primary" style="display: flex; gap: clamp(20px, 3vw, 40px); font-size: 14px">
+      <a href="Main.dc.html" style="text-decoration: none; padding: 12px 0">Work</a>
+      <a href="About.dc.html" aria-current="page" style="padding: 12px 0; text-decoration: underline; text-decoration-color: #8A1414; text-decoration-thickness: 2px; text-underline-offset: 8px">About</a>
+      <a href="Contact.dc.html" style="text-decoration: none; padding: 12px 0">Contact</a>
+    </nav>
+  </header>
+
+  <section style="max-width: 1600px; margin: 0 auto; padding: clamp(64px, 9vw, 144px) clamp(16px, 3vw, 40px) clamp(56px, 7vw, 104px); box-sizing: border-box; display: flex; flex-direction: column; gap: 32px">
+    <p style="margin: 0; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">About / Studio</p>
+    <h1 style="margin: 0; max-width: 1320px; font-size: clamp(48px, 7.6vw, 128px); font-weight: 900; letter-spacing: -0.055em; line-height: 0.9">We build legacy through <span style="{{hl.a}}">authentic</span> <span style="{{hl.b}}">human</span> <span style="{{hl.c}}">stories</span>.</h1>
+  </section>
+
+  <section id="about-who" style="max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px) clamp(96px, 10vw, 160px); box-sizing: border-box">
+    <div style="display: flex; flex-wrap: wrap; gap: 24px 64px; border-top: 1px solid #0A0A0A; padding-top: 32px">
+      <h2 style="flex: 1 1 200px; margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Who we are</h2>
+      <p style="flex: 999 1 560px; min-width: 0; margin: 0; max-width: 980px; font-size: clamp(26px, 2.8vw, 44px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.18">
+        <sc-for list="{{words}}" as="w" hint-placeholder-count="12"><span style="{{w.style}}">{{w.text}} </span></sc-for>
+      </p>
+    </div>
+  </section>
+
+  <section id="about-mosaic" aria-label="Behind the scenes and team photos" style="padding: clamp(40px, 6vw, 96px) 8px; overflow: hidden">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px">
+      <div style="{{col1}}">
+        <div style="aspect-ratio: 4 / 5; background: #E6E6E6; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[BTS]</div>
+        <div style="aspect-ratio: 3 / 2; background: #DCDCDC; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[Team]</div>
+        <div style="aspect-ratio: 1 / 1; background: #E6E6E6; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[BTS]</div>
+      </div>
+      <div style="{{col2}}">
+        <div style="aspect-ratio: 3 / 2; background: #DCDCDC; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[BTS]</div>
+        <div style="aspect-ratio: 4 / 5; background: #E6E6E6; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[Team]</div>
+        <div style="aspect-ratio: 3 / 2; background: #DCDCDC; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[BTS]</div>
+      </div>
+      <div style="{{col3}}">
+        <div style="aspect-ratio: 2 / 3; background: #E6E6E6; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[Team]</div>
+        <div style="aspect-ratio: 3 / 2; background: #DCDCDC; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; font-size: 12px; color: #6E6E6E">[BTS]</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about-name" style="max-width: 1600px; margin: 0 auto; padding: clamp(96px, 10vw, 160px) clamp(16px, 3vw, 40px); box-sizing: border-box">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 32px 64px; border-top: 1px solid #0A0A0A; padding-top: 32px">
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 20px">
+        <h2 style="margin: 0; font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">The name</h2>
+        <p lang="ko" aria-label="효도" style="{{koStyle}}">
+          <span aria-hidden="true" style="{{hyo}}">효</span><span aria-hidden="true" style="{{doChar}}">도</span>
+        </p>
+      </div>
+      <div style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+        <p style="margin: 0; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Hyo·do — Korean (n.) — Filial devotion · honoring one's parents</p>
+        <p style="margin: 0; font-size: clamp(22px, 2vw, 30px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.3">"Hyodo" is the Korean word for loving and honoring your parents.</p>
+        <p style="margin: 0; max-width: 680px; font-size: 18px; line-height: 1.6; color: #444444">In the same way our first-generation immigrant parents entrusted their dreams and visions to us, we set out to honor what they taught us — and to preserve the legacies and the visions of everyone we work with. That's the whole reason this studio exists.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px) clamp(96px, 10vw, 160px); box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; border-bottom: 1px solid #0A0A0A; padding-bottom: 24px">
+      <h2 style="margin: 0; font-size: clamp(40px, 5vw, 80px); font-weight: 900; letter-spacing: -0.05em; line-height: 0.9">What we do</h2>
+      <span style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">03 / Disciplines</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 13px; letter-spacing: 0.1em; color: #8A1414">01</span>
+        <h3 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em">Film</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #444444">Narrative features and short films, from development through post — director-led, and made to be worth keeping.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 13px; letter-spacing: 0.1em; color: #8A1414">02</span>
+        <h3 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em">Commercials</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #444444">Brand films that honor what a company was actually built to be — concept to final grade.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 13px; letter-spacing: 0.1em; color: #8A1414">03</span>
+        <h3 style="margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.02em">Music Videos</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #444444">Artist-first visuals built around the song, and the person behind it. Bold, fast, made to be rewatched.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact" style="background: #0A0A0A; color: #FFFFFF">
+    <div style="max-width: 1600px; margin: 0 auto; padding: clamp(64px, 7vw, 104px) clamp(16px, 3vw, 40px) 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px)">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 40px 64px">
+        <a href="Main.dc.html" aria-label="Hyodo Productions — home" style="text-decoration: none; font-weight: 900; font-size: clamp(64px, 8vw, 128px); letter-spacing: -0.06em; line-height: 0.8; color: #FFFFFF">hyodo</a>
+        <div style="display: flex; flex-wrap: wrap; gap: 32px 80px; font-size: 16px">
+          <nav aria-label="Footer menu" style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #9A9A9A; padding-bottom: 6px">Menu</span>
+            <a href="Main.dc.html" style="text-decoration: none; padding: 10px 0; color: #FFFFFF">Work</a>
+            <a href="About.dc.html" style="text-decoration: none; padding: 10px 0; color: #FFFFFF">About</a>
+            <a href="Contact.dc.html" style="text-decoration: none; padding: 10px 0; color: #FFFFFF">Contact</a>
+          </nav>
+          <div style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #9A9A9A; padding-bottom: 6px">Connect</span>
+            <a href="mailto:hello@hyodoproductions.com" style="text-decoration: none; padding: 10px 0; color: #FFFFFF">hello@hyodoproductions.com</a>
+            <a href="https://www.instagram.com/hyodoproductions/" style="text-decoration: none; padding: 10px 0; color: #FFFFFF">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; border-top: 1px solid #333333; padding-top: 24px; font-size: 13px; color: #9A9A9A">
+        <span style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="display: inline-block; width: 8px; height: 8px; background: #8A1414"></span>© 2026 Hyodo Productions — Led by story. Crafted to last.</span>
+        <span>Los Angeles / Worldwide</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"koreanFont":{"editor":"enum","options":["Gaegu","Hi Melody","Gowun Batang","Nanum Pen Script","Nanum Brush Script","East Sea Dokdo","Hahmlet","Gothic A1","IBM Plex Sans KR","Song Myung","Nanum Myeongjo"],"default":"Gaegu"},"$preview":{"width":1440,"height":4700}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    const clamp = (v) => Math.min(1, Math.max(0, v));
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 0 when the element's top reaches `start` (fraction of viewport), 1 when its bottom reaches `end`.
+    const prog = (id, start, end) => {
+      const el = document.getElementById(id);
+      if (!el) return 1;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = r.height + vh * (start - end);
+      return total > 0 ? clamp((vh * start - r.top) / total) : 1;
+    };
+    this._frame = null;
+    this._onScroll = () => {
+      if (this._frame) return;
+      this._frame = requestAnimationFrame(() => {
+        this._frame = null;
+        if (reduce) { this.setState({ pw: 1, pm: 0.5, pn: 1 }); return; }
+        const next = { pw: prog('about-who', 0.85, 0.45), pm: prog('about-mosaic', 1, 0), pn: prog('about-name', 0.95, 0.75) };
+        const s = this.state || {};
+        if (Math.abs((s.pw || 0) - next.pw) > 0.004 || Math.abs((s.pm || 0) - next.pm) > 0.004 || Math.abs((s.pn || 0) - next.pn) > 0.004) this.setState(next);
+      });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll);
+    this._onScroll();
+    this._reduce = reduce;
+    this._hlTimer = setTimeout(() => this.setState({ hl: true }), reduce ? 0 : 450);
+  }
+  componentWillUnmount() {
+    clearTimeout(this._hlTimer);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onScroll);
+    if (this._frame) cancelAnimationFrame(this._frame);
+  }
+  renderVals() {
+    const s = this.state || {};
+    const pw = s.pw ?? 1;
+    const pm = s.pm ?? 0.5;
+    const pn = s.pn ?? 1;
+
+    // Who we are: words ink in as you read down the page.
+    const copy = "Hyodo Productions is an independent production company working across film, commercials and music videos. We're the children of first-generation immigrants — raised to carry forward what our parents quietly built. We make films the same way: as keepers of a story, responsible for the people who trusted us with it.";
+    const list = copy.split(' ');
+    const lit = pw * list.length;
+    const words = list.map((t, i) => ({ text: t, style: 'color: ' + (i < lit ? '#0A0A0A' : '#CFCFCF') + '; transition: color 180ms linear' }));
+
+    // Mosaic: three columns drift at different speeds.
+    const colBase = 'flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 8px; will-change: transform; transform: translateY(';
+    const off = (k) => ((pm - 0.5) * k).toFixed(1) + 'px)';
+    const col1 = colBase + off(-180);
+    const col2 = colBase + off(140);
+    const col3 = colBase + off(-60);
+
+    // 효도: a rack focus. Each character starts soft and oversized, then pulls into focus as the section arrives; 도 trails 효.
+    const fonts = {
+      'Song Myung': "font-family: 'Song Myung', serif; font-weight: 400; letter-spacing: -0.02em",
+      'Hahmlet': "font-family: 'Hahmlet', serif; font-weight: 300; letter-spacing: -0.04em",
+      'Nanum Myeongjo': "font-family: 'Nanum Myeongjo', serif; font-weight: 800; letter-spacing: -0.04em",
+      'Gothic A1': "font-family: 'Gothic A1', sans-serif; font-weight: 200; letter-spacing: -0.05em",
+      'IBM Plex Sans KR': "font-family: 'IBM Plex Sans KR', sans-serif; font-weight: 300; letter-spacing: -0.05em",
+      'Nanum Brush Script': "font-family: 'Nanum Brush Script', cursive; font-weight: 400; letter-spacing: 0; font-size: clamp(160px, 23vw, 380px)",
+      'East Sea Dokdo': "font-family: 'East Sea Dokdo', cursive; font-weight: 400; letter-spacing: 0; font-size: clamp(170px, 24vw, 400px)",
+      'Nanum Pen Script': "font-family: 'Nanum Pen Script', cursive; font-weight: 400; letter-spacing: 0; font-size: clamp(160px, 23vw, 380px)",
+      'Gaegu': "font-family: 'Gaegu', cursive; font-weight: 300; letter-spacing: 0; font-size: clamp(140px, 20vw, 330px)",
+      'Hi Melody': "font-family: 'Hi Melody', cursive; font-weight: 400; letter-spacing: 0; font-size: clamp(140px, 20vw, 340px)",
+      'Gowun Batang': "font-family: 'Gowun Batang', serif; font-weight: 400; letter-spacing: -0.03em"
+    };
+    const koStyle = 'margin: 0; display: flex; gap: 0.04em; font-size: clamp(130px, 19vw, 320px); line-height: 0.95; color: #8A1414; ' + (fonts[this.props.koreanFont] || fonts['Gaegu']);
+    const clamp01 = (v) => Math.min(1, Math.max(0, v));
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    const focus = (q) => {
+      const e = ease(clamp01(q));
+      return 'display: inline-block; transform-origin: 50% 70%; filter: blur(' + ((1 - e) * 28).toFixed(1) + 'px); opacity: ' + (0.1 + 0.9 * e).toFixed(3) + '; transform: scale(' + (1.18 - 0.18 * e).toFixed(3) + ')';
+    };
+    const hyo = focus(pn / 0.7);
+    const doStyle = focus((pn - 0.3) / 0.7);
+
+    // Headline: "authentic human stories" sweeps from black to red, word by word, on load.
+    const on = !!s.hl;
+    const sweep = (delay) => 'background-image: linear-gradient(90deg, #8A1414 50%, #0A0A0A 50%); background-size: 200% 100%; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; background-position: ' + (on ? '0% 0' : '100% 0') + '; transition: ' + (this._reduce ? 'none' : 'background-position 750ms cubic-bezier(0.65, 0, 0.25, 1) ' + delay + 'ms');
+    const hl = { a: sweep(0), b: sweep(260), c: sweep(520) };
+
+    return { words, col1, col2, col3, hyo, doChar: doStyle, hl, koStyle };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hero black — treatments</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+.hy-grain{background-image:url(/_blob/f367ca9b3d4813c0f03b77a0794862e9);background-repeat:repeat;background-size:256px 256px}
+</style>
+</helmet>
+<div style="width: 1440px; height: 3640px; box-sizing: border-box; padding: 56px; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', sans-serif; display: flex; flex-direction: column; gap: 40px">
+  <div style="display: flex; flex-direction: column; gap: 12px">
+    <h1 style="margin: 0; font-size: 40px; font-weight: 600; letter-spacing: -0.035em">The black around HYODO — 8 treatments</h1>
+    <p style="margin: 0; max-width: 820px; font-size: 17px; line-height: 1.5; color: #444444">Every frame is live. Each shows the hero's opening state; as you scroll, the treatment fades with the black and the full reel takes over. Mix and match them on the Home page from Tweaks → Hero black.</p>
+  </div>
+
+  <figure style="margin: 0; display: flex; flex-direction: column; gap: 16px">
+    <div style="position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: #000000; isolation: isolate">
+      <sc-for list="{{feat.reel}}" as="r" hint-placeholder-count="1">
+        <img src="{{r.src}}" alt="" style="{{r.style}}">
+      </sc-for>
+      <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #000000; mix-blend-mode: multiply">
+        <span style="display: block; color: #FFFFFF; font-weight: 900; font-size: 332px; letter-spacing: -0.055em; line-height: 0.8; white-space: nowrap">HYODO</span>
+      </div>
+      <div aria-hidden="true" style="{{feat.ghostWrap}}">
+        <sc-for list="{{feat.ghost}}" as="g" hint-placeholder-count="1">
+          <img src="{{g.src}}" alt="" style="{{g.style}}">
+        </sc-for>
+      </div>
+      <div aria-hidden="true" style="{{feat.leakWrap}}">
+        <div style="{{feat.leak1}}"></div>
+        <div style="{{feat.leak2}}"></div>
+      </div>
+    </div>
+    <figcaption style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px">
+        <span style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em">09 Ghost reel + soft light leak</span>
+        <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A1414; white-space: nowrap">New</span>
+      </div>
+      <span style="max-width: 900px; font-size: 15px; line-height: 1.5; color: #444444">Option 5's ghosted footage with option 4's light leak at about half strength, shown at full hero width. The leak now reads as warm light drifting across the frame rather than a glow. The stills cycle the way the reel will on the live hero, and the ghost follows each cut.</span>
+    </figcaption>
+  </figure>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 32px">
+    <sc-for list="{{tiles}}" as="t" hint-placeholder-count="8">
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 16px">
+        <div style="position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: #000000; isolation: isolate">
+          <img src="{{t.src}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+          <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #000000; mix-blend-mode: multiply">
+            <span style="display: block; color: #FFFFFF; font-weight: 900; font-size: 162px; letter-spacing: -0.055em; line-height: 0.8; white-space: nowrap">HYODO</span>
+          </div>
+
+          <sc-if value="{{t.ghost}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="{{t.s.ghostWrap}}">
+              <img src="{{t.src}}" alt="" style="{{t.s.ghostImg}}">
+            </div>
+          </sc-if>
+
+          <sc-if value="{{t.leak}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="{{t.s.leakWrap}}">
+              <div style="{{t.s.leak1}}"></div>
+              <div style="{{t.s.leak2}}"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{t.halation}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="{{t.s.halWrap}}">
+              <span style="{{t.s.halWide}}">HYODO</span>
+              <span style="{{t.s.halTight}}">HYODO</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{t.flare}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="{{t.s.flareWrap}}">
+              <div style="{{t.s.flareGlow}}"></div>
+              <div style="{{t.s.flareCore}}"></div>
+              <div style="{{t.s.flareHot}}"></div>
+              <div style="{{t.s.orb1}}"></div>
+              <div style="{{t.s.orb2}}"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{t.grain}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="{{t.s.grainWrap}}">
+              <div style="{{t.s.glow}}"></div>
+              <div class="hy-grain" style="{{t.s.grain}}"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{t.viewfinder}}" hint-placeholder-val="{{ false }}">
+            <div aria-hidden="true" style="position: absolute; inset: 5%; pointer-events: none; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.8)">
+              <div style="position: absolute; top: 0; left: 0; width: 22px; height: 22px; border-top: 1.5px solid rgba(255,255,255,0.75); border-left: 1.5px solid rgba(255,255,255,0.75)"></div>
+              <div style="position: absolute; top: 0; right: 0; width: 22px; height: 22px; border-top: 1.5px solid rgba(255,255,255,0.75); border-right: 1.5px solid rgba(255,255,255,0.75)"></div>
+              <div style="position: absolute; bottom: 0; left: 0; width: 22px; height: 22px; border-bottom: 1.5px solid rgba(255,255,255,0.75); border-left: 1.5px solid rgba(255,255,255,0.75)"></div>
+              <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; border-bottom: 1.5px solid rgba(255,255,255,0.75); border-right: 1.5px solid rgba(255,255,255,0.75)"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 14px; height: 1px; background: rgba(255,255,255,0.55); transform: translate(-50%, -50%)"></div>
+              <div style="position: absolute; top: 50%; left: 50%; width: 1px; height: 14px; background: rgba(255,255,255,0.55); transform: translate(-50%, -50%)"></div>
+              <span style="position: absolute; top: 8px; left: 32px; display: flex; align-items: center; gap: 7px"><span style="{{t.s.recDot}}"></span>Rec</span>
+              <span style="position: absolute; top: 8px; right: 32px">4K DCI · 23.976</span>
+              <span style="position: absolute; bottom: 8px; left: 32px; font-variant-numeric: tabular-nums">{{t.s.tc}}</span>
+              <span style="position: absolute; bottom: 8px; right: 32px">ISO 800 · T2.0 · 180°</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <figcaption style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px">
+            <span style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em">{{t.num}} {{t.name}}</span>
+            <span style="{{t.tagStyle}}">{{t.tag}}</span>
+          </div>
+          <span style="font-size: 15px; line-height: 1.5; color: #444444">{{t.note}}</span>
+        </figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3640}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) this._t = setInterval(() => this.setState({ k: ((this.state && this.state.k) || 0) + 1 }), 90);
+  }
+  componentWillUnmount() {
+    clearInterval(this._t);
+  }
+  renderVals() {
+    const k = (this.state && this.state.k) || 0;
+    const rnd = (n) => { const x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); };
+    const p2 = (n) => String(n).padStart(2, '0');
+
+    const fy = 50 + 5 * Math.sin(k * 0.031);
+    const fxp = 18 * Math.sin(k * 0.022);
+    const streak = 'linear-gradient(90deg, rgba(120,160,255,0) 0%, rgba(120,160,255,0.25) 25%, rgba(225,235,255,0.95) 50%, rgba(120,160,255,0.25) 75%, rgba(120,160,255,0) 100%)';
+    const halBase = "grid-area: 1 / 1; display: block; font-family: 'Inter Tight', sans-serif; font-weight: 900; font-size: 162px; letter-spacing: -0.055em; line-height: 0.8; white-space: nowrap; ";
+    const fr = 8 + Math.floor(k * 2.16);
+    const ss = 12 + Math.floor(fr / 24);
+
+    const s = {
+      grainWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen',
+      glow: 'position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(255,255,255,0.08), rgba(255,255,255,0) 70%); opacity: ' + (0.8 + 0.2 * rnd(k * 3.1)).toFixed(3),
+      grain: 'position: absolute; inset: -64px; opacity: 0.17; transform: translate(' + Math.round(rnd(k) * 64 - 32) + 'px, ' + Math.round(rnd(k + 0.37) * 64 - 32) + 'px)',
+
+      halWrap: 'position: absolute; inset: 0; pointer-events: none; display: grid; place-items: center; mix-blend-mode: screen; opacity: ' + (0.85 + 0.1 * Math.sin(k * 0.21)).toFixed(3),
+      halWide: halBase + 'color: #C42A1E; filter: blur(0.07em); opacity: 0.9',
+      halTight: halBase + 'color: #8A1414; filter: blur(0.02em); opacity: 0.75',
+
+      flareWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: ' + (0.75 + 0.25 * Math.sin(k * 0.13)).toFixed(3),
+      flareCore: 'position: absolute; left: -20%; width: 140%; top: ' + fy.toFixed(2) + '%; height: 2px; background: ' + streak + '; transform: translate(' + fxp.toFixed(2) + '%, -50%)',
+      flareGlow: 'position: absolute; left: -20%; width: 140%; top: ' + fy.toFixed(2) + '%; height: 16%; background: ' + streak + '; filter: blur(14px); opacity: 0.45; transform: translate(' + fxp.toFixed(2) + '%, -50%)',
+      flareHot: 'position: absolute; top: ' + fy.toFixed(2) + '%; left: ' + (50 + fxp * 1.4).toFixed(2) + '%; width: 22%; aspect-ratio: 1; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(230,238,255,0.55) 0%, rgba(140,170,255,0.18) 30%, rgba(140,170,255,0) 65%)',
+      orb1: 'position: absolute; top: ' + (fy + 14).toFixed(2) + '%; left: ' + (50 - fxp * 0.9).toFixed(2) + '%; width: 5%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(140,170,255,0.3), rgba(140,170,255,0) 70%)',
+      orb2: 'position: absolute; top: ' + (fy + 24).toFixed(2) + '%; left: ' + (50 - fxp * 1.6).toFixed(2) + '%; width: 2.5%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(140,170,255,0.4), rgba(140,170,255,0) 70%)',
+
+      leakWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: ' + (0.6 + 0.4 * Math.pow(Math.sin(k * 0.045), 2)).toFixed(3),
+      leak1: 'position: absolute; width: 75%; aspect-ratio: 1; border-radius: 50%; left: ' + (-30 + 6 * Math.sin(k * 0.017)).toFixed(2) + '%; top: ' + (-45 + 5 * Math.cos(k * 0.013)).toFixed(2) + '%; filter: blur(36px); background: radial-gradient(circle, rgba(220,72,28,0.75) 0%, rgba(138,20,20,0.5) 38%, rgba(138,20,20,0) 70%)',
+      leak2: 'position: absolute; width: 60%; aspect-ratio: 1; border-radius: 50%; left: ' + (66 + 5 * Math.sin(k * 0.021)).toFixed(2) + '%; top: ' + (38 + 6 * Math.cos(k * 0.019)).toFixed(2) + '%; filter: blur(36px); background: radial-gradient(circle, rgba(240,150,40,0.5) 0%, rgba(160,40,20,0.3) 40%, rgba(160,40,20,0) 70%)',
+
+      ghostWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: 0.3',
+      ghostImg: 'position: absolute; left: -6%; top: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(16px) grayscale(1); transform: scale(' + (1.03 + 0.03 * Math.sin(k * 0.02)).toFixed(4) + ')',
+
+      recDot: 'display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #D32F2F; opacity: ' + (k % 12 < 7 ? 1 : 0.15),
+      tc: 'TC 01:' + p2(Math.floor(ss / 60) % 60) + ':' + p2(ss % 60) + ':' + p2(fr % 24)
+    };
+
+    const img = {
+      mim: '/_blob/b7bdb04ef1773b1e4f6192090e9d8dae',
+      tk: '/_blob/d9fbb501afbbc78e92123e8a3b2d9ba8',
+      ai: '/_blob/05282a25c3c38d7aa34c8bf4ac88a2bd',
+      nd: '/_blob/ca95fa936c2221852e02771d09f2bb6c',
+      ls: '/_blob/a985cf569809b57646ee6d97fbe5dfb3'
+    };
+    const tagRed = 'font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A1414; white-space: nowrap';
+    const tagGrey = 'font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; white-space: nowrap';
+
+    const list = [
+      { num: '01', name: 'Film grain', tag: 'Subtle', src: img.mim, grain: true, note: 'Fine, moving 35mm grain over a faint pool of light behind the word. The quietest fix: the black reads as film stock instead of an empty screen.' },
+      { num: '02', name: 'Red halation', tag: 'On-brand', src: img.nd, halation: true, note: 'Your red glows off the letter edges, the way bright highlights bloom on film stock. The brand color used as light, not paint.' },
+      { num: '03', name: 'Anamorphic flare', tag: 'Cinematic', src: img.ai, flare: true, note: 'A horizontal lens streak drifts slowly across the word, trailing small lens ghosts. The most instantly "cinema" of the set.' },
+      { num: '04', name: 'Light leak', tag: 'Warm', src: img.ls, leak: true, note: 'Red-orange light leaks in from the corners and breathes slowly, like a camera body letting light in. Warm and nostalgic.' },
+      { num: '05', name: 'Ghost reel', tag: 'Atmospheric', src: img.tk, ghost: true, note: 'The footage glows faintly through the black, soft and colorless, so the letters become sharp windows onto a scene that is already there.' },
+      { num: '06', name: 'Camera viewfinder', tag: 'DP detail', src: img.mim, viewfinder: true, note: 'Frame-line corners, a blinking REC light, running timecode and exposure settings turn the hero into a camera monitor. A nod to a DP-led studio.' },
+      { num: '07', name: 'Grain + red halation', tag: 'Recommended', src: img.nd, grain: true, halation: true, note: 'Film texture plus the red glow. Rich without getting busy, and it keeps the stark black-and-white look. This is now on by default on the Home page.' },
+      { num: '08', name: 'Grain + ghost reel + flare', tag: 'Maximal', src: img.ai, grain: true, ghost: true, flare: true, note: 'The full stack: texture, ambient footage and a moving flare. The most dramatic; works best if the reel itself is fairly calm.' }
+    ];
+    const tiles = list.map((t) => ({
+      grain: false, halation: false, flare: false, leak: false, ghost: false, viewfinder: false,
+      ...t,
+      s: s,
+      tagStyle: t.tag === 'Recommended' ? tagRed : tagGrey
+    }));
+    // 09: ghost reel + light leak at roughly half strength, full width, cycling stills.
+    const order = [img.mim, img.tk, img.ai, img.nd, img.ls];
+    const cur = Math.floor(k / 16) % order.length;
+    const soft = 0.45;
+    const feat = {
+      reel: order.map((src, i) => ({ src: src, style: 'position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 600ms ease; opacity: ' + (i === cur ? 1 : 0) })),
+      ghostWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: 0.3',
+      ghost: order.map((src, i) => ({ src: src, style: 'position: absolute; left: -6%; top: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(28px) grayscale(1); transition: opacity 600ms ease; opacity: ' + (i === cur ? 1 : 0) })),
+      leakWrap: 'position: absolute; inset: 0; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: ' + (soft * (0.6 + 0.4 * Math.pow(Math.sin(k * 0.045), 2))).toFixed(3),
+      leak1: 'position: absolute; width: 75%; aspect-ratio: 1; border-radius: 50%; left: ' + (-30 + 6 * Math.sin(k * 0.017)).toFixed(2) + '%; top: ' + (-45 + 5 * Math.cos(k * 0.013)).toFixed(2) + '%; filter: blur(60px); background: radial-gradient(circle, rgba(220,72,28,0.75) 0%, rgba(138,20,20,0.5) 38%, rgba(138,20,20,0) 70%)',
+      leak2: 'position: absolute; width: 60%; aspect-ratio: 1; border-radius: 50%; left: ' + (66 + 5 * Math.sin(k * 0.021)).toFixed(2) + '%; top: ' + (38 + 6 * Math.cos(k * 0.019)).toFixed(2) + '%; filter: blur(60px); background: radial-gradient(circle, rgba(240,150,40,0.5) 0%, rgba(160,40,20,0.3) 40%, rgba(160,40,20,0) 70%)'
+    };
+
+    return { tiles, feat };
+  }
+}
+</script>
+</body>
+</html>

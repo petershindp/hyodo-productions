@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hyodo Productions — Contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;900&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0A0A0A}a:hover{color:#6E6E6E}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; display: flex; flex-direction: column; background: #FFFFFF; color: #0A0A0A; font-family: 'Inter Tight', system-ui, sans-serif; box-sizing: border-box">
+
+  <header style="width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px clamp(16px, 3vw, 40px); max-width: 1600px; margin: 0 auto; box-sizing: border-box">
+    <a href="Main.dc.html" style="text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.24em">HYODO</a>
+    <nav aria-label="Primary" style="display: flex; gap: clamp(20px, 3vw, 40px); font-size: 14px">
+      <a href="Main.dc.html" style="text-decoration: none; padding: 12px 0">Work</a>
+      <a href="About.dc.html" style="text-decoration: none; padding: 12px 0">About</a>
+      <a href="Contact.dc.html" aria-current="page" style="padding: 12px 0; text-decoration: underline; text-decoration-color: #8A1414; text-decoration-thickness: 2px; text-underline-offset: 8px">Contact</a>
+    </nav>
+  </header>
+
+  <main style="width: 100%; max-width: 1600px; margin: 0 auto; padding: clamp(56px, 8vw, 128px) clamp(16px, 3vw, 40px) clamp(96px, 10vw, 160px); box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 64px clamp(48px, 7vw, 120px)">
+
+    <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: clamp(40px, 5vw, 72px)">
+      <div style="display: flex; flex-direction: column; gap: 28px">
+        <p style="margin: 0; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Contact</p>
+        <h1 style="margin: 0; font-size: clamp(56px, 8vw, 132px); font-weight: 900; letter-spacing: -0.06em; line-height: 0.88">Let's make<br>something<br><span style="color: #8A1414">lasting.</span></h1>
+      </div>
+      <dl style="margin: 0; display: flex; flex-direction: column; gap: 28px; border-top: 1px solid #0A0A0A; padding-top: 28px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <dt style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">New business</dt>
+          <dd style="margin: 0; font-size: clamp(22px, 2vw, 30px); font-weight: 500; letter-spacing: -0.02em"><a href="mailto:hello@hyodoproductions.com" style="text-underline-offset: 6px">hello@hyodoproductions.com</a></dd>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <dt style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Studio</dt>
+          <dd style="margin: 0; font-size: clamp(22px, 2vw, 30px); font-weight: 500; letter-spacing: -0.02em">Los Angeles, CA</dd>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <dt style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Follow</dt>
+          <dd style="margin: 0; font-size: clamp(22px, 2vw, 30px); font-weight: 500; letter-spacing: -0.02em"><a href="https://www.instagram.com/hyodoproductions/" style="text-underline-offset: 6px">Instagram</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <section aria-labelledby="start-title" style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 32px; align-self: flex-end">
+      <h2 id="start-title" style="margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; border-bottom: 1px solid #0A0A0A; padding-bottom: 16px">Start a project</h2>
+
+      <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+        <form style="display: flex; flex-direction: column; gap: 28px">
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Name
+            <input type="text" placeholder="Your name" autocomplete="name" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 18px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Email
+            <input type="email" placeholder="you@studio.com" autocomplete="email" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 18px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Company
+            <input type="text" placeholder="Optional" autocomplete="organization" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 18px; letter-spacing: 0; text-transform: none; color: #0A0A0A">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E">Project
+            <textarea rows="4" placeholder="Tell us about the story you want to tell…" style="border: 0; border-bottom: 1px solid #BDBDBD; border-radius: 0; background: transparent; padding: 12px 0; font: inherit; font-size: 18px; letter-spacing: 0; text-transform: none; color: #0A0A0A; resize: vertical"></textarea>
+          </label>
+          <button type="button" onClick="{{ send }}" style="align-self: stretch; display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 24px; border: 0; border-radius: 0; background: #0A0A0A; color: #FFFFFF; font: inherit; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer">Send inquiry <span aria-hidden="true">↗</span></button>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="display: flex; flex-direction: column; gap: 16px; padding: 8px 0 24px">
+          <p style="margin: 0; font-size: clamp(32px, 3.4vw, 52px); font-weight: 900; letter-spacing: -0.05em; line-height: 0.95">Thank you.<br><span style="color: #8A1414">We'll be in touch.</span></p>
+          <button type="button" onClick="{{ reset }}" style="align-self: flex-start; min-height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; color: #0A0A0A; cursor: pointer">Send another</button>
+        </div>
+      </sc-if>
+    </section>
+  </main>
+
+  <footer style="margin-top: auto; background: #FFFFFF; color: #0A0A0A">
+    <div style="max-width: 1600px; margin: 0 auto; padding: clamp(56px, 6vw, 88px) clamp(16px, 3vw, 40px) 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px); border-top: 1px solid #0A0A0A">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 40px 64px">
+        <a href="Main.dc.html" aria-label="Hyodo Productions — home" style="text-decoration: none; font-weight: 900; font-size: clamp(64px, 8vw, 128px); letter-spacing: -0.06em; line-height: 0.8">hyodo</a>
+        <div style="display: flex; flex-wrap: wrap; gap: 32px 80px; font-size: 16px">
+          <nav aria-label="Footer menu" style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 6px">Menu</span>
+            <a href="Main.dc.html" style="text-decoration: none; padding: 10px 0">Work</a>
+            <a href="About.dc.html" style="text-decoration: none; padding: 10px 0">About</a>
+            <a href="Contact.dc.html" style="text-decoration: none; padding: 10px 0">Contact</a>
+          </nav>
+          <div style="display: flex; flex-direction: column">
+            <span style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; padding-bottom: 6px">Connect</span>
+            <a href="mailto:hello@hyodoproductions.com" style="text-decoration: none; padding: 10px 0">hello@hyodoproductions.com</a>
+            <a href="https://www.instagram.com/hyodoproductions/" style="text-decoration: none; padding: 10px 0">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid #E2E2E2; padding-top: 24px; font-size: 13px; color: #6E6E6E">
+        <span>© 2026 Hyodo Productions — Led by story. Crafted to last.</span>
+        <span>Los Angeles / Worldwide</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sent = !!(this.state && this.state.sent);
+    return {
+      sent: sent,
+      notSent: !sent,
+      send: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

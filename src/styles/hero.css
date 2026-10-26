@@ -51,7 +51,7 @@
 	color: #FFFFFF;
 	font-family: var(--font-heading);
 	font-weight: 900;
-	font-size: clamp(130px, 30vw, 540px);
+	font-size: clamp(140px, 32vw, 580px);
 	letter-spacing: -0.055em;
 	line-height: 0.8;
 	white-space: nowrap;
@@ -61,7 +61,7 @@
 
 .hero-reel-logo {
 	display: block;
-	width: clamp(320px, 74vw, 1080px);
+	width: clamp(340px, 80vw, 1180px);
 	height: auto;
 	background-color: #FFFFFF;
 	-webkit-mask-repeat: no-repeat;
@@ -78,6 +78,138 @@
 @media (prefers-reduced-motion: reduce) {
 	.hero-reel-logo {
 		transition: none;
+	}
+}
+
+/* ── Ghost reel + soft light leak ──
+   Both read opacity from --mask, a custom property written imperatively by
+   Hero.jsx's existing scroll handler (not React state), so they animate
+   without forcing an extra render per scroll frame. --mask mirrors the same
+   maskOpacity the black mask above already uses, so all three fade out
+   together by p = 0.8. */
+
+.hero-reel-ghost {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	overflow: hidden;
+	pointer-events: none;
+	mix-blend-mode: screen;
+	opacity: calc(0.18 * var(--mask, 1));
+}
+
+.hero-reel-ghost-video {
+	/* Cheap blur: render at 25% size and scale(4) back up instead of
+	   blurring a full-size frame — the browser rasterizes/blurs far fewer
+	   pixels, and the upscale is a free compositor operation. */
+	position: absolute;
+	left: 36%;
+	top: 36%;
+	width: 28%;
+	height: 28%;
+	object-fit: cover;
+	filter: blur(7px) grayscale(1);
+	transform-origin: center;
+	transform: scale(4);
+	will-change: transform;
+}
+
+.hero-reel-leak {
+	--leak-intensity: 0.28;
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	overflow: hidden;
+	pointer-events: none;
+	mix-blend-mode: screen;
+	opacity: calc(var(--leak-intensity) * var(--mask, 1));
+}
+
+.hero-reel-leak-breathe {
+	position: absolute;
+	inset: 0;
+	animation: hero-leak-breathe 6.3s ease-in-out infinite;
+	will-change: opacity;
+}
+
+.hero-reel-leak-blob {
+	position: absolute;
+	border-radius: 50%;
+}
+
+.hero-reel-leak-blob-inner {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	will-change: transform;
+}
+
+/* Two independently-periodic axes (own nested element per axis) combine into
+   organic, non-repeating drift without JS or @property — see HERO-BLACK.md. */
+.hero-reel-leak-blob-a {
+	width: 75%;
+	aspect-ratio: 1;
+	left: -30%;
+	top: -45%;
+	animation: hero-leak-drift-a-x 33s ease-in-out infinite alternate;
+	will-change: transform;
+}
+
+.hero-reel-leak-blob-a-inner {
+	background: radial-gradient(circle, rgba(220, 72, 28, 0.75) 0%, rgba(138, 20, 20, 0.5) 38%, rgba(138, 20, 20, 0) 78%);
+	animation: hero-leak-drift-a-y 43s ease-in-out infinite alternate;
+}
+
+.hero-reel-leak-blob-b {
+	width: 60%;
+	aspect-ratio: 1;
+	left: 66%;
+	top: 38%;
+	animation: hero-leak-drift-b-x 27s ease-in-out infinite alternate;
+	will-change: transform;
+}
+
+.hero-reel-leak-blob-b-inner {
+	background: radial-gradient(circle, rgba(240, 150, 40, 0.5) 0%, rgba(160, 40, 20, 0.3) 40%, rgba(160, 40, 20, 0) 78%);
+	animation: hero-leak-drift-b-y 30s ease-in-out infinite alternate;
+}
+
+@keyframes hero-leak-breathe {
+	0%, 100% { opacity: 0.6; }
+	50% { opacity: 1; }
+}
+
+@keyframes hero-leak-drift-a-x {
+	from { transform: translateX(-6%); }
+	to { transform: translateX(6%); }
+}
+
+@keyframes hero-leak-drift-a-y {
+	from { transform: translateY(-5%); }
+	to { transform: translateY(5%); }
+}
+
+@keyframes hero-leak-drift-b-x {
+	from { transform: translateX(-5%); }
+	to { transform: translateX(5%); }
+}
+
+@keyframes hero-leak-drift-b-y {
+	from { transform: translateY(-6%); }
+	to { transform: translateY(6%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-reel-leak-breathe {
+		animation: none;
+		opacity: 0.8;
+	}
+
+	.hero-reel-leak-blob-a,
+	.hero-reel-leak-blob-b,
+	.hero-reel-leak-blob-a-inner,
+	.hero-reel-leak-blob-b-inner {
+		animation: none;
 	}
 }
 
@@ -130,12 +262,12 @@
 
 @media (max-width: 768px) {
 	.hero-reel-word {
-		font-size: 132px;
+		font-size: 144px;
 		letter-spacing: -0.06em;
 	}
 
 	.hero-reel-logo {
-		width: 300px;
+		width: 330px;
 	}
 
 	.hero-reel-caption {

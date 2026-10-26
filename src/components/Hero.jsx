@@ -12,7 +12,10 @@ function clamp(v, min = 0, max = 1) {
 export default function Hero() {
 	const sectionRef = useRef(null);
 	const videoRef = useRef(null);
+	const ghostVideoRef = useRef(null);
 	const rafRef = useRef(null);
+	const heroVisibleRef = useRef(true);
+	const maskOpacityRef = useRef(1);
 	const [reelVideoUrl, setReelVideoUrl] = useState("/hero-reel.mp4");
 	const [reelLink, setReelLink] = useState(null);
 	const [logo, setLogo] = useState(null);
@@ -60,9 +63,23 @@ export default function Hero() {
 		};
 	}, [logoUrl]);
 
+	// Ghost reel only needs to play while it's actually visible — paused
+	// once the black mask has fully lifted (--mask reaches 0) or the hero
+	// scrolls out of view, so it's not decoding/blurring an invisible video.
+	const updateGhostPlayback = () => {
+		const ghost = ghostVideoRef.current;
+		if (!ghost) return;
+		const shouldPlay = heroVisibleRef.current && maskOpacityRef.current > 0;
+		if (shouldPlay && ghost.paused) ghost.play().catch(() => {});
+		if (!shouldPlay && !ghost.paused) ghost.pause();
+	};
+
 	useEffect(() => {
 		if (prefersReduced.current) {
 			setScrollVals(getScrollVals(1, true));
+			maskOpacityRef.current = 0;
+			sectionRef.current?.style.setProperty("--mask", "0");
+			updateGhostPlayback();
 			return;
 		}
 
@@ -75,7 +92,14 @@ export default function Hero() {
 				const stage = window.innerHeight;
 				const range = el.getBoundingClientRect().height - stage;
 				const p = range > 0 ? clamp(-el.getBoundingClientRect().top / range) : 0;
-				setScrollVals(getScrollVals(p, false));
+				const vals = getScrollVals(p, false);
+				setScrollVals(vals);
+				// Ghost reel + light leak read their opacity from this custom
+				// property in CSS (see hero.css), instead of a React-driven
+				// inline style, so they don't force an extra render per frame.
+				maskOpacityRef.current = vals.maskOpacity;
+				el.style.setProperty("--mask", vals.maskOpacity.toFixed(3));
+				updateGhostPlayback();
 			});
 		};
 
@@ -89,6 +113,49 @@ export default function Hero() {
 			}
 		};
 	}, []);
+
+	// Pause the ghost reel entirely when the hero scrolls out of view.
+	useEffect(() => {
+		const el = sectionRef.current;
+		if (!el || typeof IntersectionObserver === "undefined") return;
+		const observer = new IntersectionObserver(([entry]) => {
+			heroVisibleRef.current = entry.isIntersecting;
+			updateGhostPlayback();
+		});
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, []);
+
+	// Keep the ghost reel's playback roughly in sync with the main reel so
+	// cuts line up — exact sync doesn't matter at this blur level.
+	useEffect(() => {
+		const main = videoRef.current;
+		const ghost = ghostVideoRef.current;
+		if (!main || !ghost) return;
+		const resync = () => {
+			if (Math.abs(ghost.currentTime - main.currentTime) > 0.15) {
+				ghost.currentTime = main.currentTime;
+			}
+		};
+		main.addEventListener("play", resync);
+		main.addEventListener("seeked", resync);
+		const interval = setInterval(resync, 5000);
+
+		// The browser's own autoplay can win a race against our imperative
+		// pause() in updateGhostPlayback() (e.g. reduced motion, where --mask
+		// is always 0 from the first render). Re-assert the pause if it does.
+		const guardAutoplay = () => {
+			if (!(heroVisibleRef.current && maskOpacityRef.current > 0)) ghost.pause();
+		};
+		ghost.addEventListener("play", guardAutoplay);
+
+		return () => {
+			main.removeEventListener("play", resync);
+			main.removeEventListener("seeked", resync);
+			ghost.removeEventListener("play", guardAutoplay);
+			clearInterval(interval);
+		};
+	}, [reelVideoUrl]);
 
 	return (
 		<section className="hero-reel" ref={sectionRef} aria-label="Showreel">
@@ -132,6 +199,31 @@ export default function Hero() {
 							</span>
 						)
 					)}
+				</div>
+
+				{reelVideoUrl && (
+					<div className="hero-reel-ghost" aria-hidden="true">
+						<video
+							ref={ghostVideoRef}
+							className="hero-reel-ghost-video"
+							src={reelVideoUrl}
+							autoPlay
+							muted
+							loop
+							playsInline
+						/>
+					</div>
+				)}
+
+				<div className="hero-reel-leak" aria-hidden="true">
+					<div className="hero-reel-leak-breathe">
+						<div className="hero-reel-leak-blob hero-reel-leak-blob-a">
+							<div className="hero-reel-leak-blob-inner hero-reel-leak-blob-a-inner" />
+						</div>
+						<div className="hero-reel-leak-blob hero-reel-leak-blob-b">
+							<div className="hero-reel-leak-blob-inner hero-reel-leak-blob-b-inner" />
+						</div>
+					</div>
 				</div>
 
 				<div className="hero-reel-caption" style={{ opacity: scrollVals.captionOpacity }}>
