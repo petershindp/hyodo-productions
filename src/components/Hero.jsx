@@ -102,7 +102,7 @@ export default function Hero() {
 						muted
 						loop
 						playsInline
-						style={{ transform: `scale(${scrollVals.reelScale})` }}
+						style={{ transform: `scale(${scrollVals.reelScale}) translateZ(0)` }}
 					/>
 				)}
 
@@ -119,14 +119,14 @@ export default function Hero() {
 								WebkitMaskImage: `url(${logoUrl})`,
 								maskImage: `url(${logoUrl})`,
 								aspectRatio: logoAspectRatio,
-								transform: `scale(${scrollVals.textScale})`,
+								transform: `scale(${scrollVals.textScale}) translateZ(0)`,
 							}}
 						/>
 					) : (
 						heroDataLoaded && (
 							<span
 								className="hero-reel-word"
-								style={{ transform: `scale(${scrollVals.textScale})` }}
+								style={{ transform: `scale(${scrollVals.textScale}) translateZ(0)` }}
 							>
 								HYODO
 							</span>
