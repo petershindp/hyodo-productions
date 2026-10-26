@@ -11,7 +11,16 @@
 .hero-reel-stage {
 	position: sticky;
 	top: 0;
-	height: 100svh;
+	/* lvh (not svh) — the stage's own box must always fully cover the real
+	   viewport, including when the mobile toolbar hides and the viewport
+	   grows past the svh baseline, or the gap below it reveals flat black
+	   (nothing else is painted there). lvh is the largest possible viewport
+	   and — like svh — a fixed unit that doesn't live-recalculate mid-scroll,
+	   so this doesn't reintroduce the dvh jump bug fixed above; it only
+	   means the stage box is sometimes slightly taller than what's on
+	   screen when the toolbar happens to be showing, which is invisible
+	   (just extends below the current fold, like any normal content). */
+	height: 100lvh;
 	overflow: hidden;
 	background: #000000;
 }

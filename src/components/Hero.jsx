@@ -12,10 +12,17 @@ function clamp(v, min = 0, max = 1) {
 export default function Hero() {
 	const sectionRef = useRef(null);
 	const videoRef = useRef(null);
+	const maskRef = useRef(null);
+	const logoRef = useRef(null);
+	const captionRef = useRef(null);
+	const ctaRef = useRef(null);
 	const ghostVideoRef = useRef(null);
 	const rafRef = useRef(null);
 	const heroVisibleRef = useRef(true);
-	const maskOpacityRef = useRef(1);
+	// Holds the latest scroll-derived values for direct DOM writes (see the
+	// scroll handler below) and for elements that mount late, after an
+	// async Sanity field (logo, CTA) resolves.
+	const latestValsRef = useRef(getScrollVals(0, false));
 	const [reelVideoUrl, setReelVideoUrl] = useState("/hero-reel.mp4");
 	const [reelLink, setReelLink] = useState(null);
 	const [logo, setLogo] = useState(null);
@@ -69,16 +76,41 @@ export default function Hero() {
 	const updateGhostPlayback = () => {
 		const ghost = ghostVideoRef.current;
 		if (!ghost) return;
-		const shouldPlay = heroVisibleRef.current && maskOpacityRef.current > 0;
+		const shouldPlay = heroVisibleRef.current && latestValsRef.current.maskOpacity > 0;
 		if (shouldPlay && ghost.paused) ghost.play().catch(() => {});
 		if (!shouldPlay && !ghost.paused) ghost.pause();
 	};
 
+	// Applies every scroll-derived value straight to the DOM via refs
+	// instead of a React re-render. The previous approach called
+	// setScrollVals() on every scroll-driven animation frame, which
+	// re-rendered the whole Hero tree (video, mask, logo, caption, CTA) up
+	// to 60x/sec — that reconciliation work competing with the browser's
+	// own scroll/compositing on the main thread was the source of the
+	// choppiness on mobile Safari. React only renders these elements once
+	// now (for first paint / when an async field like the logo or CTA
+	// resolves); scrolling itself never re-renders them.
+	const applyVals = (vals) => {
+		latestValsRef.current = vals;
+		if (videoRef.current) videoRef.current.style.transform = `scale(${vals.reelScale}) translateZ(0)`;
+		if (maskRef.current) maskRef.current.style.opacity = vals.maskOpacity;
+		if (logoRef.current) logoRef.current.style.transform = `scale(${vals.textScale}) translateZ(0)`;
+		if (captionRef.current) captionRef.current.style.opacity = vals.captionOpacity;
+		if (ctaRef.current) {
+			ctaRef.current.style.opacity = vals.ctaOpacity;
+			ctaRef.current.style.pointerEvents = vals.ctaOpacity > 0.5 ? "auto" : "none";
+		}
+		// Ghost reel + light leak read their opacity from this custom
+		// property in CSS (see hero.css), instead of a React-driven inline
+		// style, so they don't force an extra render per frame either.
+		sectionRef.current?.style.setProperty("--mask", vals.maskOpacity.toFixed(3));
+	};
+
 	useEffect(() => {
 		if (prefersReduced.current) {
-			setScrollVals(getScrollVals(1, true));
-			maskOpacityRef.current = 0;
-			sectionRef.current?.style.setProperty("--mask", "0");
+			const vals = getScrollVals(1, true);
+			setScrollVals(vals);
+			applyVals(vals);
 			updateGhostPlayback();
 			return;
 		}
@@ -92,13 +124,7 @@ export default function Hero() {
 				const stage = window.innerHeight;
 				const range = el.getBoundingClientRect().height - stage;
 				const p = range > 0 ? clamp(-el.getBoundingClientRect().top / range) : 0;
-				const vals = getScrollVals(p, false);
-				setScrollVals(vals);
-				// Ghost reel + light leak read their opacity from this custom
-				// property in CSS (see hero.css), instead of a React-driven
-				// inline style, so they don't force an extra render per frame.
-				maskOpacityRef.current = vals.maskOpacity;
-				el.style.setProperty("--mask", vals.maskOpacity.toFixed(3));
+				applyVals(getScrollVals(p, false));
 				updateGhostPlayback();
 			});
 		};
@@ -126,6 +152,24 @@ export default function Hero() {
 		return () => observer.disconnect();
 	}, []);
 
+	// The logo span (or its fallback word) and the CTA button mount late,
+	// after their Sanity fields resolve — if the user has already scrolled
+	// by then, apply the current scroll position immediately instead of
+	// letting them pop in at the stale p=0 default.
+	useEffect(() => {
+		if (logoRef.current) {
+			logoRef.current.style.transform = `scale(${latestValsRef.current.textScale}) translateZ(0)`;
+		}
+	}, [logoUrl, heroDataLoaded, logoReady]);
+
+	useEffect(() => {
+		if (ctaRef.current) {
+			const vals = latestValsRef.current;
+			ctaRef.current.style.opacity = vals.ctaOpacity;
+			ctaRef.current.style.pointerEvents = vals.ctaOpacity > 0.5 ? "auto" : "none";
+		}
+	}, [reelLink]);
+
 	// Keep the ghost reel's playback roughly in sync with the main reel so
 	// cuts line up — exact sync doesn't matter at this blur level.
 	useEffect(() => {
@@ -145,7 +189,7 @@ export default function Hero() {
 		// pause() in updateGhostPlayback() (e.g. reduced motion, where --mask
 		// is always 0 from the first render). Re-assert the pause if it does.
 		const guardAutoplay = () => {
-			if (!(heroVisibleRef.current && maskOpacityRef.current > 0)) ghost.pause();
+			if (!(heroVisibleRef.current && latestValsRef.current.maskOpacity > 0)) ghost.pause();
 		};
 		ghost.addEventListener("play", guardAutoplay);
 
@@ -175,11 +219,13 @@ export default function Hero() {
 
 				<div
 					className="hero-reel-mask"
+					ref={maskRef}
 					aria-hidden="true"
 					style={{ opacity: scrollVals.maskOpacity }}
 				>
 					{logoUrl ? (
 						<span
+							ref={logoRef}
 							className="hero-reel-logo"
 							style={{
 								opacity: logoReady ? 1 : 0,
@@ -192,6 +238,7 @@ export default function Hero() {
 					) : (
 						heroDataLoaded && (
 							<span
+								ref={logoRef}
 								className="hero-reel-word"
 								style={{ transform: `scale(${scrollVals.textScale}) translateZ(0)` }}
 							>
@@ -226,7 +273,7 @@ export default function Hero() {
 					</div>
 				</div>
 
-				<div className="hero-reel-caption" style={{ opacity: scrollVals.captionOpacity }}>
+				<div className="hero-reel-caption" ref={captionRef} style={{ opacity: scrollVals.captionOpacity }}>
 					<span>Driven by story. Crafted to last.</span>
 					<span>Film · Commercials · Music Videos</span>
 					<span>Scroll ↓</span>
@@ -235,6 +282,7 @@ export default function Hero() {
 				{reelLink && (
 					<div
 						className="hero-reel-cta"
+						ref={ctaRef}
 						style={{
 							opacity: scrollVals.ctaOpacity,
 							pointerEvents: scrollVals.ctaOpacity > 0.5 ? "auto" : "none",
