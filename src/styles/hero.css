@@ -35,14 +35,17 @@
 	will-change: transform;
 }
 
-/* Black multiply layer — HYODO text shows footage through letters */
+/* Black multiply layer — HYODO text shows footage through letters.
+   Stays a full inset:0 bleed across the whole (lvh-tall) stage: this is
+   what hides the video everywhere outside the logo cutout, so it can't be
+   confined to the smaller safe area below without a visible unmasked strip
+   of raw video appearing whenever the toolbar hides and the stage grows
+   past svh. Only the LOGO's own centering (.hero-reel-mask-content below)
+   is scoped to the safe area — the black backdrop itself still bleeds. */
 .hero-reel-mask {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	background: #000000;
 	mix-blend-mode: multiply;
 	/* Force its own stable compositing layer. Without this, WebKit can leave
@@ -53,6 +56,23 @@
 	transform: translateZ(0);
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
+}
+
+/* The logo must be centered in what's actually visible, not in the full
+   lvh-tall stage — when the mobile toolbar is showing (the common resting
+   state), the real viewport is only 100svh, and centering within the taller
+   lvh box puts the logo visibly below center. top:0 is always safe (only
+   the bottom varies with the toolbar), so this is a top-anchored, svh-tall
+   slice of the mask that the logo centers within instead. */
+.hero-reel-mask-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100svh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .hero-reel-word {
@@ -226,7 +246,13 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: 0;
+	/* calc(100lvh - 100svh) is the toolbar's height — the amount of extra
+	   room the stage (100lvh) has beyond what's actually visible when the
+	   toolbar is showing (100svh). Without this offset, bottom:0 sits at
+	   the bottom of the taller lvh box, which is below the real fold and
+	   gets covered by the toolbar. On browsers with no dynamic toolbar
+	   (desktop, lvh === svh) this evaluates to 0 — unchanged from before. */
+	bottom: calc(100lvh - 100svh);
 	z-index: 3;
 	display: flex;
 	flex-wrap: wrap;
@@ -243,7 +269,8 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: clamp(32px, 6vw, 72px);
+	/* Same toolbar-height offset as the caption above. */
+	bottom: calc(100lvh - 100svh + clamp(32px, 6vw, 72px));
 	z-index: 3;
 	display: flex;
 	justify-content: center;

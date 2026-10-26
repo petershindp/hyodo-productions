@@ -223,29 +223,31 @@ export default function Hero() {
 					aria-hidden="true"
 					style={{ opacity: scrollVals.maskOpacity }}
 				>
-					{logoUrl ? (
-						<span
-							ref={logoRef}
-							className="hero-reel-logo"
-							style={{
-								opacity: logoReady ? 1 : 0,
-								WebkitMaskImage: `url(${logoUrl})`,
-								maskImage: `url(${logoUrl})`,
-								aspectRatio: logoAspectRatio,
-								transform: `scale(${scrollVals.textScale}) translateZ(0)`,
-							}}
-						/>
-					) : (
-						heroDataLoaded && (
+					<div className="hero-reel-mask-content">
+						{logoUrl ? (
 							<span
 								ref={logoRef}
-								className="hero-reel-word"
-								style={{ transform: `scale(${scrollVals.textScale}) translateZ(0)` }}
-							>
-								HYODO
-							</span>
-						)
-					)}
+								className="hero-reel-logo"
+								style={{
+									opacity: logoReady ? 1 : 0,
+									WebkitMaskImage: `url(${logoUrl})`,
+									maskImage: `url(${logoUrl})`,
+									aspectRatio: logoAspectRatio,
+									transform: `scale(${scrollVals.textScale}) translateZ(0)`,
+								}}
+							/>
+						) : (
+							heroDataLoaded && (
+								<span
+									ref={logoRef}
+									className="hero-reel-word"
+									style={{ transform: `scale(${scrollVals.textScale}) translateZ(0)` }}
+								>
+									HYODO
+								</span>
+							)
+						)}
+					</div>
 				</div>
 
 				{reelVideoUrl && (
